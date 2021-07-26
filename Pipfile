@@ -7,6 +7,8 @@ name = "pypi"
 django = "*"
 requests = "*"
 beautifulsoup4 = "*"
+self = "*"
+apiresponse = "*"
 
 [dev-packages]
 

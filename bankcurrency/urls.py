@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import bank
+from rest_framework import routers
+from .views import AlfaBankViewSet
 
 urlpatterns = [
-    path('', bank),
-
+    path('', AlfaBankViewSet.as_view()),
 ]

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bankcurrency.apps.BankcurrencyConfig',
     'rest_framework',
+
 ]
 
 MIDDLEWARE = [
