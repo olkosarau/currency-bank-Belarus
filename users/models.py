@@ -9,52 +9,51 @@ from django.contrib.auth.models import (
 
 
 class UserManager(BaseUserManager):
+    """Создали класс менеджера"""
 
-    def _create_user(self, email, password, **extra_fields):
-        """
-        Creates and saves a User with the given email,and password.
-        """
-        if not email:
-            raise ValueError('The given email must be set')
-        try:
-            with transaction.atomic():
-                user = self.model(email=email, **extra_fields)
-                user.set_password(password)
-                user.save(using=self._db)
-                return user
-        except:
-            raise
+    def create_user(self, username, email, password=None):
+        """ Создает и возвращает пользователя с имэйлом, паролем и именем. """
+        if username is None:
+            raise TypeError('Users must have a username.')
 
-    def create_user(self, email, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', False)
-        extra_fields.setdefault('is_superuser', False)
-        return self._create_user(email, password, **extra_fields)
+        if email is None:
+            raise TypeError('Users must have an email address.')
 
-    def create_superuser(self, email, password, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
+        user = self.model(username=username, email=self.normalize_email(email))
+        user.set_password(password)
+        user.save()
 
-        return self._create_user(email, password=password, **extra_fields)
+        return user
+
+    def create_superuser(self, username, email, password):
+        """ Создает и возввращет пользователя с привилегиями суперадмина. """
+        if password is None:
+            raise TypeError('Superusers must have a password.')
+
+        user = self.create_user(username, email, password)
+        user.is_superuser = True
+        user.is_staff = True
+        user.save()
+
+        return user
 
 
 class User(AbstractBaseUser, PermissionsMixin):
     """
-    An abstract base class implementing a fully featured User model with
-    admin-compliant permissions.
-
+    Модель пользователя
     """
     email = models.EmailField(max_length=40, unique=True)
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)    #деактивируем пользователя, но не удаляем
+    is_staff = models.BooleanField(default=False)    #определяет, кто может войти в административную часть сайта
     date_joined = models.DateTimeField(default=timezone.now)
 
-    objects = UserManager()
+    objects = UserManager() #класс UserManager должен управлять объектами этого типа.
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'email'  #определяет, какое поле для входа в систему
     REQUIRED_FIELDS = ['first_name', 'last_name']
 
-    def save(self, *args, **kwargs):
-        super(User, self).save(*args, **kwargs)
-        return self
+    def __str__(self):
+        """ Строковое представление модели (отображается в консоли) """
+        return self.email

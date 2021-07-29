@@ -7,24 +7,30 @@ from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import permission_classes, api_view
 from rest_framework.generics import GenericAPIView, RetrieveUpdateAPIView
 from rest_framework_jwt.serializers import jwt_payload_handler, jwt
-
 import bankcurrency, requests
 from devtest import settings
-from .serializers import UserSerializer
+from .serializers import RegistrationSerializer
 from rest_framework.views import APIView, Response, Request
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from.models import User
 
 
-class CreateUserAPIView(APIView):
-    # Allow any user (authenticated or not) to access this url
+class RegistrationAPIView(APIView):
+    """
+    Разрешить всем пользователям (аутентифицированным и нет) доступ к данному эндпоинту.
+    """
     permission_classes = (AllowAny,)
+    serializer_class = RegistrationSerializer
 
     def post(self, request):
-        user = request.data
-        serializer = UserSerializer(data=user)
+        user = request.data.get('user', {})
+
+        # Паттерн создания сериализатора, валидации и сохранения - довольно
+        # стандартный, и его можно часто увидеть в реальных проектах.
+        serializer = self.serializer_class(data=user)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
@@ -62,7 +68,7 @@ def authenticate_user(request):
 class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
     # Allow only authenticated users to access this url
     permission_classes = (IsAuthenticated,)
-    serializer_class = UserSerializer
+    serializer_class = RegistrationSerializer
 
     def get(self, request, *args, **kwargs):
         # serializer to handle turning our `User` object into something that
@@ -74,7 +80,7 @@ class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
     def put(self, request, *args, **kwargs):
         serializer_data = request.data.get('user', {})
 
-        serializer = UserSerializer(
+        serializer = RegistrationSerializer(
             request.user, data=serializer_data, partial=True
         )
         serializer.is_valid(raise_exception=True)

@@ -21,5 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('MyCur/', include('bankcurrency.urls')),
     path('user/', include('users.urls')),
-        #path('', RedirectView.as_view(url='/bank/', permanent=True)),
+
 ]
