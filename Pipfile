@@ -9,6 +9,8 @@ requests = "*"
 beautifulsoup4 = "*"
 self = "*"
 apiresponse = "*"
+drf-json-api = "*"
+django-filter = "*"
 
 [dev-packages]
 

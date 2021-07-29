@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "59476dfdca8c599dd79a9e24b84652d9ab32964ae8fedc2cd4785ebdaf47d751"
+            "sha256": "4ad59eb6900eac67534bf44045da4c5388b9d7c6846b78ba5cca510a62b4a054"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -75,6 +75,22 @@
             ],
             "index": "pypi",
             "version": "==3.2.5"
+        },
+        "django-filter": {
+            "hashes": [
+                "sha256:84e9d5bb93f237e451db814ed422a3a625751cbc9968b484ecc74964a8696b06",
+                "sha256:e00d32cebdb3d54273c48f4f878f898dced8d5dfaad009438fe61ebdf535ace1"
+            ],
+            "index": "pypi",
+            "version": "==2.4.0"
+        },
+        "drf-json-api": {
+            "hashes": [
+                "sha256:2039018ef2037609bea58a68404c2f552b491a14e996a8d34244665984488092",
+                "sha256:8a9172148f1566746dd900d62c7a39cefe5ea0600eba7407adf3f3b3a14c7038"
+            ],
+            "index": "pypi",
+            "version": "==0.1.1"
         },
         "flask": {
             "hashes": [
