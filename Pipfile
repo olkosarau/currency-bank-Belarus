@@ -14,6 +14,8 @@ django-filter = "*"
 automium-web = "*"
 api = "*"
 null = "*"
+users = "*"
+django-email-users = "*"
 
 [dev-packages]
 

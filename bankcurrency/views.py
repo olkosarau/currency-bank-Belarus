@@ -1,14 +1,10 @@
-from django import views
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
-from rest_framework import viewsets, permissions
+from rest_framework import permissions
 from rest_framework.generics import GenericAPIView
 import bankcurrency, requests
 from .models import AlfaBank, Company, Date, AlfaBankUnAuth
-from .serializers import AlfaBankSerializer, AlfaBankUnAuthSerializer, CompanySerializer, DateSerializer
+from .serializers import (AlfaBankSerializer, AlfaBankUnAuthSerializer, CompanySerializer,
+                          DateSerializer)
 from rest_framework.views import APIView, Response, Request
-from rest_framework.permissions import IsAuthenticated                 # просматривает записи, если авторизован пользователь
-from django.contrib.auth import authenticate, login, logout
 
 
 class AlfaBankViewSet(GenericAPIView):
@@ -19,7 +15,7 @@ class AlfaBankViewSet(GenericAPIView):
     # authentication_classes = [permissions.IsAuthenticated, ]
     serializer_class = AlfaBankSerializer
 
-    def get(self, request, format=None):
+    def get(self, request):
         # if request.user.is_authenticated:   # Проверка на аторизацию
         curr_req = requests.get(
             'https://developerhub.alfabank.by:8273/partner/1.0.1/public/rates')  # Делаем запрос в АПИ
@@ -31,13 +27,17 @@ class AlfaBankViewSet(GenericAPIView):
         cur_usd_buy = data['rates'][4]['buyRate']
         cur_usd_sell = data['rates'][4]['sellRate']
         date = data['rates'][3]['date']
+        date_up = date.isoformat()
+        AlfaBank.objects.create(date=date_up, eur_buy=cur_eur_buy, eur_sell=cur_eur_sell,
+                                usd_buy=cur_usd_buy, usd_sell=cur_usd_sell, rur_buy=cur_rur_buy,
+                                rur_sell=cur_rur_sell)
         response = Response({'usd_buy': cur_usd_buy,
                              'usd_sell': cur_usd_sell,
                              'eur_buy': cur_eur_buy,
                              'eur_sell': cur_eur_sell,
                              'rur_buy_buy': cur_rur_buy,
                              'rur_buy_sell': cur_rur_sell,
-                             'date': date
+                             'date': date_up
                              })
         return response
 
@@ -71,7 +71,7 @@ class AlfaBankUnAuthViewSet(GenericAPIView):
     )
     serializer_class = AlfaBankUnAuthSerializer
 
-    def get(self, request, format=None):
+    def get(self, request):
         curr_req = requests.get(
             'https://developerhub.alfabank.by:8273/partner/1.0.1/public/rates')  # Делаем запрос в АПИ
         data = curr_req.json()

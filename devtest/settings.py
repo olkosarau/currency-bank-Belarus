@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import datetime
 from pathlib import Path
 
+import users
+
+import devtest
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 from django.core.mail.backends import smtp
 
@@ -40,8 +43,6 @@ INSTALLED_APPS = [
     'bankcurrency.apps.BankcurrencyConfig',
     'rest_framework',
     'users'
-
-
 
 ]
 
@@ -108,8 +109,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-
 LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'UTC'
@@ -132,22 +131,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-
+        'devtest.users.backends.JWTAuthentication',
     ),
-    'DEFAULT_FILTER_BACKENDS': (
-        'django_filters.rest_framework.DjangoFilterBackend',
-    ),
-
-}
-JWT_AUTH = {
-
-    'JWT_VERIFY': True,
-    'JWT_VERIFY_EXPIRATION': True,
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3000),
-    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
-
+    'EXCEPTION_HANDLER': 'project.exceptions.core_exception_handler',
+    'NON_FIELD_ERRORS_KEY': 'error',
 }
 
 AUTH_USER_MODEL = 'users.User'
-
