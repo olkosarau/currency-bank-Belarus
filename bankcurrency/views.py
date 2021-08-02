@@ -5,6 +5,7 @@ from .models import AlfaBank, Company, Date, AlfaBankUnAuth
 from .serializers import (AlfaBankSerializer, AlfaBankUnAuthSerializer, CompanySerializer,
                           DateSerializer)
 from rest_framework.views import APIView, Response, Request
+from datetime import datetime
 
 
 class AlfaBankViewSet(GenericAPIView):
@@ -22,31 +23,26 @@ class AlfaBankViewSet(GenericAPIView):
         data = curr_req.json()
         cur_rur_buy = data['rates'][3]['buyRate']
         cur_rur_sell = data['rates'][3]['sellRate']
-        cur_eur_buy = data['rates'][5]['buyRate']
-        cur_eur_sell = data['rates'][5]['sellRate']
-        cur_usd_buy = data['rates'][4]['buyRate']
-        cur_usd_sell = data['rates'][4]['sellRate']
-        date = data['rates'][3]['date']
-        date_up = date.isoformat()
-        AlfaBank.objects.create(date=date_up, eur_buy=cur_eur_buy, eur_sell=cur_eur_sell,
-                                usd_buy=cur_usd_buy, usd_sell=cur_usd_sell, rur_buy=cur_rur_buy,
-                                rur_sell=cur_rur_sell)
+        cur_eur_buy = data['rates'][4]['buyRate']
+        cur_eur_sell = data['rates'][4]['sellRate']
+        cur_usd_buy = data['rates'][5]['buyRate']
+        cur_usd_sell = data['rates'][5]['sellRate']
+        date_up = data['rates'][3]['date']
+        date_time_obj = datetime.strptime(date_up, '%d.%m.%Y')
+
+        cur_new = AlfaBank.objects.create(date=date_time_obj, eur_buy=cur_eur_buy, eur_sell=cur_eur_sell,
+                                          usd_buy=cur_usd_buy, usd_sell=cur_usd_sell, rur_buy=cur_rur_buy,
+                                          rur_sell=cur_rur_sell)
+        cur_new.save()
         response = Response({'usd_buy': cur_usd_buy,
                              'usd_sell': cur_usd_sell,
                              'eur_buy': cur_eur_buy,
                              'eur_sell': cur_eur_sell,
-                             'rur_buy_buy': cur_rur_buy,
-                             'rur_buy_sell': cur_rur_sell,
+                             'rur_buy': cur_rur_buy,
+                             'rur_sell': cur_rur_sell,
                              'date': date_up
                              })
         return response
-
-    def post(self, *args):
-        pass
-
-    @classmethod
-    def get_extra_actions(cls):
-        return []
 
 
 class DateViewSet(GenericAPIView):

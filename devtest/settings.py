@@ -11,10 +11,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import datetime
 from pathlib import Path
-
-import users
-
-import devtest
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 from django.core.mail.backends import smtp
 
@@ -130,11 +126,9 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'devtest.users.backends.JWTAuthentication',
-    ),
-    'EXCEPTION_HANDLER': 'project.exceptions.core_exception_handler',
-    'NON_FIELD_ERRORS_KEY': 'error',
+
+    # 'EXCEPTION_HANDLER': 'project.exceptions.core_exception_handler',
+    # 'NON_FIELD_ERRORS_KEY': 'error',
 }
 
 AUTH_USER_MODEL = 'users.User'

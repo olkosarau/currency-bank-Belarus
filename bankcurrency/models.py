@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import date
 
+
 class Company(models.Model):
     name = models.CharField('Банк', max_length=100, blank=True)
 
@@ -8,10 +9,11 @@ class Company(models.Model):
         verbose_name = 'банк'
         verbose_name_plural = 'банки'
 
+
 class AlfaBank(models.Model):
     """для авторизованных пользователей"""
-    company = models.ForeignKey('Company', verbose_name='Банк', on_delete=models.PROTECT, default=1)
-    date = models.ForeignKey('Date', verbose_name='Дата', default=date.today, null=True, on_delete=models.PROTECT)
+    company = models.ForeignKey('Company', verbose_name='Банк', on_delete=models.PROTECT, null=True)
+    date = models.DateTimeField(verbose_name='Дата', default=1)
     eur_buy = models.FloatField(verbose_name='Покупка EUR', default=1)
     eur_sell = models.FloatField(verbose_name='Продажа EUR', default=1)
     usd_buy = models.FloatField(verbose_name='Покупка USD', default=1)

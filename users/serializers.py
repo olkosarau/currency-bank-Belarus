@@ -16,6 +16,9 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     token = serializers.CharField(max_length=255, read_only=True)
 
+    # def validate_password(self, values:str) -> str:
+    #     if values
+
     class Meta:
         model = User
         # Перечисляем все поля, которые могут быть включены в запрос
@@ -35,7 +38,7 @@ class LoginSerializer(serializers.Serializer):
     def validate(self, data):
         # убеждаемся, что текущий экземпляр значение valid. В случае входа пользователя в систему
         # это означает подтверждение того, что присутствуют адрес электронной
-        # почты и то, что эта комбинация соответствует одному из пользователей.
+        # почты и то, чprojectто эта комбинация соответствует одному из пользователей.
         email = data.get('email', None)
         password = data.get('password', None)
 

@@ -4,7 +4,6 @@ from .views import AlfaBankViewSet, DateViewSet, AlfaBankUnAuthViewSet
 
 urlpatterns = [
     #path('company/', CompanyViewSet.as_view()),
-    path('', AlfaBankViewSet.as_view()),
-    path('Date/', DateViewSet.as_view()),
-    path('AlfaBankUnAuch/', AlfaBankUnAuthViewSet.as_view()),
+    path('bank', AlfaBankViewSet.as_view()),
+    path('', AlfaBankUnAuthViewSet.as_view()),
 ]

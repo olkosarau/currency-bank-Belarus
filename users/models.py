@@ -44,7 +44,7 @@ class User(django.contrib.auth.models.AbstractBaseUser, django.contrib.auth.mode
     email = models.EmailField(max_length=40, unique=True)
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
-    is_active = models.BooleanField(default=True)  # деактивируем пользователя, но не удаляем
+    is_active = models.BooleanField(default=False)  # деактивируем пользователя, но не удаляем
     date_joined = models.DateTimeField(default=timezone.now)
 
     USERNAME_FIELD = 'email'  # определяет, какое поле для входа в систему
@@ -79,11 +79,6 @@ class User(django.contrib.auth.models.AbstractBaseUser, django.contrib.auth.mode
         # "Does the user have permissions to view the app `app_label`?"
         # Simplest possible answer: Yes, always
         return True
-
-    @property
-    def is_staff(self):
-        # "Is the user a member of staff?"
-        return self.staff
 
     def _generate_jwt_token(self):
         """

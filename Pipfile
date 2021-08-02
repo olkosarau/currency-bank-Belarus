@@ -16,6 +16,7 @@ api = "*"
 null = "*"
 users = "*"
 django-email-users = "*"
+dt = "*"
 
 [dev-packages]
 
