@@ -17,6 +17,8 @@ null = "*"
 users = "*"
 django-email-users = "*"
 dt = "*"
+render = "*"
+django-request = "*"
 
 [dev-packages]
 

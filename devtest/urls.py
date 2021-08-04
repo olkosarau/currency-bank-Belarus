@@ -16,9 +16,10 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-
+from users.views import LoginFormView
 
 urlpatterns = [
+    path('login/', LoginFormView.as_view()),
     path('admin/', admin.site.urls),
     path('alfaBank/', include('bankcurrency.urls')),
     path('auth/', include('users.urls')),
