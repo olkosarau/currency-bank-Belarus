@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bankcurrency.apps.BankcurrencyConfig',
     'rest_framework',
-    'users'
+    'users',
+    'django_celery_beat',
+    'django_celery_results',
 
 ]
 
@@ -115,6 +117,12 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+# Celery Configuration Options
+CELERY_TIMEZONE = "Europe/Minsk"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+CELERY_BROKER_URL = "redis://localhost:6379/0"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
