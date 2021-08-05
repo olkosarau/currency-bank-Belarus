@@ -6,6 +6,9 @@ from .serializers import (AlfaBankSerializer, AlfaBankUnAuthSerializer, CompanyS
                           DateSerializer)
 from rest_framework.views import APIView, Response, Request
 from datetime import datetime
+from celery.schedules import crontab
+from bankcurrency.tasks import get
+from devtest.celery import app
 
 
 class AlfaBankViewSet(GenericAPIView):
@@ -17,7 +20,6 @@ class AlfaBankViewSet(GenericAPIView):
     serializer_class = AlfaBankSerializer
 
     def get(self, request):
-        # if request.user.is_authenticated:   # Проверка на аторизацию
         curr_req = requests.get(
             'https://developerhub.alfabank.by:8273/partner/1.0.1/public/rates')  # Делаем запрос в АПИ
         data = curr_req.json()
@@ -28,7 +30,7 @@ class AlfaBankViewSet(GenericAPIView):
         cur_usd_buy = data['rates'][5]['buyRate']
         cur_usd_sell = data['rates'][5]['sellRate']
         date_up = data['rates'][3]['date']
-        date_time_obj = datetime.strptime(date_up, '%d.%m.%Y')
+        date_time_obj = datetime.strptime(date_up, '%d.%m.%Y %H:%M:%S')
 
         cur_new = AlfaBank.objects.create(date=date_time_obj, eur_buy=cur_eur_buy, eur_sell=cur_eur_sell,
                                           usd_buy=cur_usd_buy, usd_sell=cur_usd_sell, rur_buy=cur_rur_buy,
@@ -86,13 +88,12 @@ class AlfaBankUnAuthViewSet(GenericAPIView):
     def post(self, *args):
         pass
 
-# def my_login(request):
-#     if request.method == 'POST':
-#         form = UserRegisterForm(request.POST)
-#         if form.is_valid():
-#
-#     else:
-#         form = UserRegisterForm()
-#                   # Вход не был выполнен
-#     context = {'form':form}
-#     return render(request, 'register.html', context)
+
+
+app.conf.beat_schedule = {
+    'creating-cur_new': {
+        'task': 'bankcurrency.tasks.get',
+        'schedule': crontab(hour=1),
+    }
+
+}

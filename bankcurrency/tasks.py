@@ -1,14 +1,13 @@
 from datetime import datetime
-
 from celery import shared_task
-from celery.worker.state import requests
 from datetime import datetime
 from .models import AlfaBank
+from devtest.celery import app
+import json
+import requests
 
-
-
-@shared_task
-def create_new_db():
+@app.task
+def get():
     curr_req = requests.get(
         'https://developerhub.alfabank.by:8273/partner/1.0.1/public/rates')
     data = curr_req.json()
@@ -25,4 +24,4 @@ def create_new_db():
                                       usd_buy=cur_usd_buy, usd_sell=cur_usd_sell, rur_buy=cur_rur_buy,
                                       rur_sell=cur_rur_sell)
     cur_new.save()
-    return cur_new
+
