@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Company, AlfaBank, AlfaBankUnAuth, Date
+from .models import Company, AlfaBank, AlfaBankUnAuth
 
 
 class CompanyAdmin(admin.ModelAdmin):
@@ -12,15 +12,10 @@ class AlfaBankAdmin(admin.ModelAdmin):
     search_fields = ('date', 'id')  # по каким полям мы можем искать
 
 
-class DateAdmin(admin.ModelAdmin):
-    list_display = ('date',)
-
-
 class AlfaBankUnAuthAdmin(admin.ModelAdmin):
     list_display = ('id', 'date', 'usd', 'rur', 'eur')
 
 
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(AlfaBank, AlfaBankAdmin)
-admin.site.register(Date, DateAdmin)
 admin.site.register(AlfaBankUnAuth, AlfaBankUnAuthAdmin)

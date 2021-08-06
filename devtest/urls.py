@@ -16,11 +16,13 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-from users.views import LoginFormView
+from bankcurrency.views import AlfaBankViewSet, AlfaBankUnAuthViewSet
+from users.views import LoginFormView, RegisterFormView
 
 urlpatterns = [
     path('login/', LoginFormView.as_view()),
+    path('register', RegisterFormView.as_view()),
     path('admin/', admin.site.urls),
-    path('alfaBank/', include('bankcurrency.urls')),
-    path('auth/', include('users.urls')),
+    path('bank/', AlfaBankViewSet.as_view()),
+    path('start/', AlfaBankUnAuthViewSet.as_view()),
 ]

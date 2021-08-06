@@ -12,7 +12,7 @@ from .models import User
 class RegisterFormView(FormView):
     form_class = RegisterUserForm
     template_name = "users/register.html"
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('/login')
 
     def post(self, request, *args, **kwargs):
         if request.method == 'POST':
@@ -21,7 +21,7 @@ class RegisterFormView(FormView):
             if form.is_valid():
                 messages.success(request, 'Вы Зарегистрировались!!!')
                 form.save()
-                return redirect('login')
+                return redirect('login/')
             else:
                 print('666666')
         else:
@@ -34,7 +34,7 @@ class RegisterFormView(FormView):
 class LoginFormView(LoginView):
     form_class = AuthenticationForm
     template_name = 'users/login.html'
-    success_url = reverse_lazy('bank')
+    success_url = reverse_lazy('/bank')
 
     def post(self, request):
         if request.user.is_authenticated:
@@ -45,11 +45,11 @@ class LoginFormView(LoginView):
                 if user is not None:
                     login(request, user)
                     messages.success(request, 'Вы Вошли В Систему!')
-                    return redirect('bank')
+                    return redirect('/bank')
 
                 else:
                     messages.success(request, 'Ошибка Входа В Систему')
-                    return redirect('admin/login/')
+                    return redirect('/login')
         else:
             return render(request, 'users/login.html', {})
 
@@ -57,4 +57,4 @@ class LoginFormView(LoginView):
 def logout_user(request):
     logout(request)
     messages.success(request, 'Вы Вышли Из Системы')
-    return redirect('/alfaBank/now/')
+    return redirect('/start')
