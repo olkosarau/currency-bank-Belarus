@@ -108,6 +108,7 @@ class BelApbViewSet(APIView):
     serializer_class = BelApbSerializer
 
     def get(self, request):
+
         curr_req = requests.get(
             'https://belapb.by/ExCardsDaily.php?')
         print(curr_req.status_code)

@@ -34,7 +34,7 @@ class RegisterFormView(FormView):
 class LoginFormView(LoginView):
     form_class = AuthenticationForm
     template_name = 'users/login.html'
-    success_url = reverse_lazy('/company')
+    success_url = reverse_lazy('company/')
 
     def post(self, request):
         if request.method == 'POST':
@@ -44,7 +44,7 @@ class LoginFormView(LoginView):
             if user is not None:
                 login(request, user)
                 messages.success(request, 'Вы Вошли В Систему!')
-                return redirect('/company')
+                return redirect('company/')
 
             else:
                 messages.success(request, 'Ошибка Входа В Систему')
@@ -56,4 +56,4 @@ class LoginFormView(LoginView):
 def logout_user(request):
     logout(request)
     messages.success(request, 'Вы Вышли Из Системы')
-    return redirect('/company')
+    return redirect('company/')
