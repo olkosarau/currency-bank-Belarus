@@ -9,9 +9,11 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-import os
 import datetime
+import os
+import pytz
 from pathlib import Path
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 from django.core.mail.backends import smtp
 from django.urls import reverse_lazy
@@ -41,8 +43,8 @@ INSTALLED_APPS = [
     'bankcurrency.apps.BankcurrencyConfig',
     'rest_framework',
     'users',
-    #'django_celery_beat',
-    #'django_celery_results',
+    # 'django_celery_beat',
+    # 'django_celery_results',
 
 ]
 

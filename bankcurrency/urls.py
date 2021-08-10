@@ -1,9 +1,16 @@
 from django.urls import path
 from rest_framework import routers
-from .views import AlfaBankViewSet, DateViewSet, AlfaBankUnAuthViewSet
+from .views import AlfaBankViewSet, AlfaBankUnAuthViewSet, BelApbViewSet, BelBankViewSet, BelApbUnAuthViewSet, \
+    BelBankUnAuthViewSet
 
 urlpatterns = [
-    #path('company/', CompanyViewSet.as_view()),
-    path('bank', AlfaBankViewSet.as_view(), name='bank'),
-    path('now', AlfaBankUnAuthViewSet.as_view()),
+
+    path('alfabank', AlfaBankViewSet.as_view(), name='alfabank'),
+    path('unauchAB', AlfaBankUnAuthViewSet.as_view()),
+    path('belagro', BelApbViewSet.as_view(), name='belagrbank'),
+    path('unauchBAB', BelApbUnAuthViewSet.as_view()),
+    path('belbank/', BelBankViewSet.as_view()),
+    path('unauchBB', BelBankUnAuthViewSet.as_view()),
+
+
 ]

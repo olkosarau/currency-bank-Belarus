@@ -21,7 +21,7 @@ class RegisterFormView(FormView):
             if form.is_valid():
                 messages.success(request, 'Вы Зарегистрировались!!!')
                 form.save()
-                return redirect('login/')
+                return redirect('/login')
             else:
                 print('666666')
         else:
@@ -34,22 +34,21 @@ class RegisterFormView(FormView):
 class LoginFormView(LoginView):
     form_class = AuthenticationForm
     template_name = 'users/login.html'
-    success_url = reverse_lazy('/bank')
+    success_url = reverse_lazy('/company')
 
     def post(self, request):
-        if request.user.is_authenticated:
-            if request.method == 'POST':
-                username = request.POST['username']
-                password = request.POST['password']
-                user = authenticate(request, username=username, password=password)
-                if user is not None:
-                    login(request, user)
-                    messages.success(request, 'Вы Вошли В Систему!')
-                    return redirect('/bank')
+        if request.method == 'POST':
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.success(request, 'Вы Вошли В Систему!')
+                return redirect('/company')
 
-                else:
-                    messages.success(request, 'Ошибка Входа В Систему')
-                    return redirect('/login')
+            else:
+                messages.success(request, 'Ошибка Входа В Систему')
+                return redirect('/login')
         else:
             return render(request, 'users/login.html', {})
 
@@ -57,4 +56,4 @@ class LoginFormView(LoginView):
 def logout_user(request):
     logout(request)
     messages.success(request, 'Вы Вышли Из Системы')
-    return redirect('/start')
+    return redirect('/company')
