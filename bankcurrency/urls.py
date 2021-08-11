@@ -9,7 +9,7 @@ urlpatterns = [
     path('unauchAB', AlfaBankUnAuthViewSet.as_view()),
     path('belagro', BelApbViewSet.as_view(), name='belagrbank'),
     path('unauchBAB', BelApbUnAuthViewSet.as_view()),
-    path('belbank/', BelBankViewSet.as_view()),
+    path('belbank', BelBankViewSet.as_view()),
     path('unauchBB', BelBankUnAuthViewSet.as_view()),
 
 
