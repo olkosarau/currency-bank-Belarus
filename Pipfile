@@ -4,25 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "*"
-requests = "*"
-beautifulsoup4 = "*"
-self = "*"
-apiresponse = "*"
-drf-json-api = "*"
-django-filter = "*"
-automium-web = "*"
-api = "*"
-null = "*"
-users = "*"
-django-email-users = "*"
-dt = "*"
-render = "*"
-django-request = "*"
-tasks = "*"
-crontab = "*"
-task = "*"
+djangorestframework = "*"
 celery = "*"
+psycopg2 = "*"
+requests = "*"
+redis = "*"
+django-celery-beat = "*"
+django-celery-results = "*"
 
 [dev-packages]
 

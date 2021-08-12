@@ -1,17 +1,16 @@
 from rest_framework import permissions
 from rest_framework.generics import GenericAPIView
-import bankcurrency, requests
 from .models import AlfaBank, BelApb, BelBank
 from .serializers import (AlfaBankSerializer, AlfaBankUnAuthSerializer, BelApbSerializer, BelApbUnAuthSerializer,
                           BelBankSerializer, BelBankUnAuthSerializer)
-from rest_framework.views import Response, APIView
+from rest_framework.views import Response
 from datetime import datetime
 from celery.schedules import crontab
 from devtest.celery import app
-from django.utils import timezone
 import requests
 import xml.etree.ElementTree as et
 from django.shortcuts import redirect
+import bankcurrency
 
 """Для авторизированных пользователей АльфаБанк"""
 
@@ -28,12 +27,12 @@ class AlfaBankViewSet(GenericAPIView):
             curr_req = requests.get(
                 'https://developerhub.alfabank.by:8273/partner/1.0.1/public/rates')  # Делаем запрос в АПИ
             data = curr_req.json()
-            cur_rur_buy = data['rates'][3]['buyRate']
-            cur_rur_sell = data['rates'][3]['sellRate']
-            cur_eur_buy = data['rates'][4]['buyRate']
-            cur_eur_sell = data['rates'][4]['sellRate']
-            cur_usd_buy = data['rates'][5]['buyRate']
-            cur_usd_sell = data['rates'][5]['sellRate']
+            cur_rur_sell = data['rates'][3]['buyRate']
+            cur_rur_buy = data['rates'][3]['sellRate']
+            cur_eur_sell = data['rates'][4]['buyRate']
+            cur_eur_buy = data['rates'][4]['sellRate']
+            cur_usd_sell = data['rates'][5]['buyRate']
+            cur_usd_buy = data['rates'][5]['sellRate']
             # date_up = data['rates'][3]['date']
             date_time_obj = datetime.now().strftime("%d-%m-%Y %H:%M")
 
@@ -67,6 +66,7 @@ class AlfaBankViewSet(GenericAPIView):
         """за определенный промежуток времени"""
         cur_mo = AlfaBank.objects.exclude(date=datetime.now()).filter(date=datetime.date(2021, 8, 4))
         return cur_mo
+
 
 """Для неавторизированных пользователей"""
 
@@ -168,7 +168,6 @@ class BelApbUnAuthViewSet(GenericAPIView):
     serializer_class = BelApbSerializer
 
     def get(self, request):
-
         curr_req = requests.get(
             'https://belapb.by/ExCardsDaily.php?')
         print(curr_req.status_code)
@@ -234,7 +233,6 @@ class BelBankViewSet(GenericAPIView):
         else:
             return redirect('/unauchBB')
 
-
     def specific_date(self):
         """за определенную дату"""
         cur_m = BelBank.objects.filter(date='2021.08.06')
@@ -288,18 +286,13 @@ class BelBankUnAuthViewSet(GenericAPIView):
         pass
 
 
-
-
-
-
-"""Задача в CELERY на каждый час"""
-"""1. Командой docker-compose up запустить REDIS"""
-"""2. Командой celery -A devtest worker -l INFO запустить CELERY"""
-app.conf.beat_schedule = {
-    'creating-cur_new': {
-        'task': 'bankcurrency.tasks.get',
-        'schedule': crontab(minute='*/59', hour='6-19', day_of_week='mon-sun'),
-    }
-
-}
-
+# """Задача в CELERY на каждый час"""
+# """1. Командой docker-compose up запустить REDIS"""
+# """2. Командой celery -A devtest worker -l INFO запустить CELERY"""
+# app.conf.beat_schedule = {
+#     'creating-cur_new': {
+#         'task': 'bankcurrency.tasks.get',
+#         'schedule': crontab(minute='*/5'),
+#     }
+#
+# }

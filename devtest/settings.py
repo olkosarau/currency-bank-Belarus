@@ -43,8 +43,8 @@ INSTALLED_APPS = [
     'bankcurrency.apps.BankcurrencyConfig',
     'rest_framework',
     'users',
-    # 'django_celery_beat',
-    # 'django_celery_results',
+    'django_celery_beat',
+    'django_celery_results',
 
 ]
 
@@ -119,7 +119,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 # Celery Configuration Options
 CELERY_TIMEZONE = "Europe/Minsk"
@@ -146,4 +146,4 @@ REST_FRAMEWORK = {
 }
 
 AUTH_USER_MODEL = 'users.User'
-LOGIN_REDIRECT_URL = reverse_lazy('bank')
+LOGIN_REDIRECT_URL = reverse_lazy('company/')
