@@ -13,7 +13,23 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'creating-cur_new': {
         'task': 'bankcurrency.tasks.get_db',
-        'schedule': crontab(),
+        'schedule': crontab(10),
+    }
+
+}
+
+app.conf.beat_schedule = {
+    'creating-cur_new_1': {
+        'task': 'bankcurrency.tasks.get_db_1',
+        'schedule': crontab(40),
+    }
+
+}
+
+app.conf.beat_schedule = {
+    'creating-cur_new_2': {
+        'task': 'bankcurrency.tasks.get_db_2',
+        'schedule': crontab(59),
     }
 
 }

@@ -1,11 +1,5 @@
 from rest_framework import serializers
-from .models import AlfaBank, AlfaBankUnAuth, Company, BelApb, BelApbUnAuth, BelBank, BelBankUnAuth
-
-
-class CompanySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Company
-        fields = '__all__'
+from .models import AlfaBank, AlfaBankUnAuth, BelApb, BelApbUnAuth, BelBank, BelBankUnAuth
 
 
 class AlfaBankSerializer(serializers.ModelSerializer):

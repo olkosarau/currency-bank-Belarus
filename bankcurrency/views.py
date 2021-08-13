@@ -5,8 +5,6 @@ from .serializers import (AlfaBankSerializer, AlfaBankUnAuthSerializer, BelApbSe
                           BelBankSerializer, BelBankUnAuthSerializer)
 from rest_framework.views import Response
 from datetime import datetime
-from celery.schedules import crontab
-from devtest.celery import app
 import requests
 import xml.etree.ElementTree as et
 from django.shortcuts import redirect
@@ -52,10 +50,14 @@ class AlfaBankViewSet(GenericAPIView):
         else:
             return redirect('/unauchAB')
 
-    def specific_date(self):
+    def specific_date(self, request):
         """за определенную дату"""
-        cur_m = AlfaBank.objects.filter(date='2021.08.06')
-        return cur_m
+        def post_date(self, request):
+            date_input=request.post('Введите интересующую дату: ')
+            data = date_input.ison()
+            return Response(data)
+
+
 
     def current_moment(self):
         """за текущий момент"""
@@ -165,7 +167,7 @@ class BelApbUnAuthViewSet(GenericAPIView):
         permissions.AllowAny
     )
     # authentication_classes = [permissions.IsAuthenticated, ]
-    serializer_class = BelApbSerializer
+    serializer_class = BelApbUnAuthSerializer
 
     def get(self, request):
         curr_req = requests.get(
@@ -285,14 +287,3 @@ class BelBankUnAuthViewSet(GenericAPIView):
     def post(self, *args):
         pass
 
-
-# """Задача в CELERY на каждый час"""
-# """1. Командой docker-compose up запустить REDIS"""
-# """2. Командой celery -A devtest worker -l INFO запустить CELERY"""
-# app.conf.beat_schedule = {
-#     'creating-cur_new': {
-#         'task': 'bankcurrency.tasks.get',
-#         'schedule': crontab(minute='*/5'),
-#     }
-#
-# }
