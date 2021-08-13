@@ -22,12 +22,11 @@ def create_alphabank_currency():
 
 
 @app.task
-def create_bel_currency():
+def create_belagro_currency():
     curr_req = requests.get('https://belapb.by/ExCardsDaily.php?')
     tree = et.ElementTree(et.fromstring(curr_req.text))
     root = tree.getroot()
 
-    s_date = datetime.now()
     s_eur_buy = root[1][3].text
     s_eur_sell = root[1][4].text
     s_usd_buy = root[0][3].text
@@ -35,14 +34,14 @@ def create_bel_currency():
     s_rur_buy = root[2][3].text
     s_rur_sell = root[2][4].text
 
-    cur_new = BelApb.objects.create(date=s_date, eur_buy=s_eur_buy, eur_sell=s_eur_sell,
+    cur_new = BelApb.objects.create(eur_buy=s_eur_buy, eur_sell=s_eur_sell,
                                     usd_buy=s_usd_buy, usd_sell=s_usd_sell, rur_buy=s_rur_buy,
                                     rur_sell=s_rur_sell)
-    cur_new.save()
+
 
 
 @app.task
-def get_db_2():
+def create_belarusbank_currency():
     curr_req = requests.get('https://belarusbank.by/api/kursExchange?city=Минск')
     data = curr_req.json()
     cur_rur_buy = data[0]['RUB_in']
@@ -51,9 +50,8 @@ def get_db_2():
     cur_eur_sell = data[0]['EUR_out']
     cur_usd_buy = data[0]['USD_in']
     cur_usd_sell = data[0]['USD_out']
-    date_time_obj = datetime.now().strftime("%d-%m-%Y %H:%M")
 
     cur_new = BelBank.objects.create(eur_buy=cur_eur_buy, eur_sell=cur_eur_sell,
                                      usd_buy=cur_usd_buy, usd_sell=cur_usd_sell, rur_buy=cur_rur_buy,
                                      rur_sell=cur_rur_sell)
-    cur_new.save()
+

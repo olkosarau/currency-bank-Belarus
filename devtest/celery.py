@@ -10,9 +10,10 @@ app.autodiscover_tasks()
 """Задача в CELERY на каждый час"""
 """1. Командой docker-compose up запустить REDIS"""
 """2. Командой celery -A devtest worker -l INFO запустить CELERY"""
+
 app.conf.beat_schedule = {
     'creating-cur_new': {
-        'task': 'bankcurrency.tasks.get_db',
+        'task': 'bankcurrency.tasks.create_alphabank_currency',
         'schedule': crontab(10),
     }
 
@@ -20,7 +21,7 @@ app.conf.beat_schedule = {
 
 app.conf.beat_schedule = {
     'creating-cur_new_1': {
-        'task': 'bankcurrency.tasks.get_db_1',
+        'task': 'bankcurrency.tasks.create_belagro_currency',
         'schedule': crontab(40),
     }
 
@@ -28,7 +29,7 @@ app.conf.beat_schedule = {
 
 app.conf.beat_schedule = {
     'creating-cur_new_2': {
-        'task': 'bankcurrency.tasks.get_db_2',
+        'task': 'bankcurrency.tasks.create_belarusbank_currency',
         'schedule': crontab(59),
     }
 
