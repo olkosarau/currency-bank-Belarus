@@ -1,38 +1,15 @@
 from rest_framework import serializers
-from .models import AlfaBank, AlfaBankUnAuth, BelApb, BelApbUnAuth, BelBank, BelBankUnAuth
+from .models import Auth, UnAuth
 
 
-class AlfaBankSerializer(serializers.ModelSerializer):
+class AuthSerializer(serializers.ModelSerializer):
     class Meta:
-        model = AlfaBank
+        model = Auth
         fields = '__all__'
 
 
-class AlfaBankUnAuthSerializer(serializers.ModelSerializer):
+class UnAuthSerializer(serializers.ModelSerializer):
     class Meta:
-        model = AlfaBankUnAuth
+        model = UnAuth
         fields = '__all__'
 
-
-class BelApbSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = BelApb
-        fields = '__all__'
-
-
-class BelApbUnAuthSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = BelApbUnAuth
-        fields = '__all__'
-
-
-class BelBankSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = BelBank
-        fields = '__all__'
-
-
-class BelBankUnAuthSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = BelBankUnAuth
-        fields = '__all__'

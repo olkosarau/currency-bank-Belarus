@@ -1,6 +1,6 @@
 import xml.etree.ElementTree as et
 from datetime import datetime
-from .models import AlfaBank, BelApb, BelBank
+from .models import Auth, UnAuth
 from devtest.celery import app
 import requests
 
@@ -16,7 +16,7 @@ def create_alphabank_currency():
     cur_usd_sell = data['rates'][5]['buyRate']
     cur_usd_buy = data['rates'][5]['sellRate']
 
-    AlfaBank.objects.create(eur_buy=cur_eur_buy, eur_sell=cur_eur_sell,
+    Auth.objects.create(eur_buy=cur_eur_buy, eur_sell=cur_eur_sell,
                             usd_buy=cur_usd_buy, usd_sell=cur_usd_sell, rur_buy=cur_rur_buy,
                             rur_sell=cur_rur_sell)
 

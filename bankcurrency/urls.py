@@ -1,15 +1,13 @@
 from django.urls import path
-from .views import AlfaBankViewSet, AlfaBankUnAuthViewSet, BelApbViewSet, BelBankViewSet, BelApbUnAuthViewSet, \
-    BelBankUnAuthViewSet
+from .views import AuthViewSet, UnAuthViewSet
 
 urlpatterns = [
 
-    path('alfabank', AlfaBankViewSet.as_view(), name='alfabank'),
-    path('unauchAB', AlfaBankUnAuthViewSet.as_view()),
-    path('belagro', BelApbViewSet.as_view(), name='belagrbank'),
-    path('unauchBAB', BelApbUnAuthViewSet.as_view()),
-    path('belbank', BelBankViewSet.as_view()),
-    path('unauchBB', BelBankUnAuthViewSet.as_view()),
-
+    path('alfabank', AuthViewSet.alfa_bank),
+    path('belagro', AuthViewSet.bel_agro),
+    path('belbank', AuthViewSet.belarus_bank),
+    path('alfaUn', UnAuthViewSet.alfa_bank),
+    path('belagroUn', UnAuthViewSet.bel_agro),
+    path('belbankUn', UnAuthViewSet.belarus_bank),
 
 ]
