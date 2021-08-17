@@ -10,4 +10,5 @@ urlpatterns = [
     path('belagroUn', UnAuthViewSet.bel_agro),
     path('belbankUn', UnAuthViewSet.belarus_bank),
 
+
 ]

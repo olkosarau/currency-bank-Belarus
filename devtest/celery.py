@@ -14,7 +14,7 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'creating-cur_new': {
         'task': 'bankcurrency.tasks.create_alphabank_currency',
-        'schedule': crontab(10),
+        'schedule': crontab(1),
     }
 
 }
@@ -22,7 +22,7 @@ app.conf.beat_schedule = {
 app.conf.beat_schedule = {
     'creating-cur_new_1': {
         'task': 'bankcurrency.tasks.create_belagro_currency',
-        'schedule': crontab(40),
+        'schedule': crontab(2),
     }
 
 }
@@ -30,7 +30,7 @@ app.conf.beat_schedule = {
 app.conf.beat_schedule = {
     'creating-cur_new_2': {
         'task': 'bankcurrency.tasks.create_belarusbank_currency',
-        'schedule': crontab(59),
+        'schedule': crontab(3),
     }
 
 }
