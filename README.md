@@ -42,3 +42,10 @@
 #### 5. Использование
 * В проекте используются API банков с принимаемыми данными в формате JSON и XML.
 * Валюты используемые в проекте: EUR, USD, RUR
+---
+
+#### 6. Terminal
+* python manage.py runserver
+* docker-compose up
+* celery -A devtest worker -l INFO
+* celery -A devtest beat -l INFO

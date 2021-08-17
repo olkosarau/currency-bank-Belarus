@@ -60,7 +60,7 @@ class UnAuthViewSet(GenericAPIView):
     #
     # def current_moment(self):
     #     """за текущий момент"""
-    #     cur_mom = AlfaBank.objects.filter(date=datetime.now().strftime("%d-%m-%Y %H:%M"))
+    #     cur_mom = AlfaBank.objects.filter(date=datetime.now().strftime("%d-%m-%Y %H:%M"), company='klkl')
     #     return cur_mom
     #
     # def time_interval(self):

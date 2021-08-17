@@ -6,7 +6,7 @@ urlpatterns = [
     path('alfabank', AuthViewSet.alfa_bank),
     path('belagro', AuthViewSet.bel_agro),
     path('belbank', AuthViewSet.belarus_bank),
-    path('alfaUn', UnAuthViewSet.alfa_bank),
+    path('alfabankUn', UnAuthViewSet.alfa_bank),
     path('belagroUn', UnAuthViewSet.bel_agro),
     path('belbankUn', UnAuthViewSet.belarus_bank),
 
