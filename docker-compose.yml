@@ -5,16 +5,18 @@ services:
     image: redis
     ports:
       - "6379:6379"
-#  pg_db:
-#    image: postgres
-#    restart: always
-#    environment:
-#      - POSTGRES_PASSWORD=1111
-#      - POSTGRES_USER=curr
-#      - POSTGRES_DB=bankcurr
-##    volumes:
-##      - pg_project:/var/lib/postgresql/data
-#    ports:
-#      - "5433:5433"
-##  postgres
-##  web
+  pg_db:
+    image: postgres
+    hostname: pg_db
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=1111
+      - POSTGRES_USER=curr
+      - POSTGRES_DB=bankcurr
+    volumes:
+      - app_db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  app_db: {}

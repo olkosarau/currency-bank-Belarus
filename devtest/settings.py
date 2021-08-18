@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-@j-2we#enaj=hl@cr!w01s86l1y+)*vr%2verzg@!ep!ur4efi
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -88,8 +88,8 @@ DATABASES = {
         'NAME': 'bankcurr',
         'USER': 'curr',
         'PASSWORD': '1111',
-        'HOST': 'localhost',
-        'PORT': '5433',
+        'HOST': '0.0.0.0',
+        'PORT': '5432',
     }
 }
 
