@@ -14,7 +14,7 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'creating-cur_new': {
         'task': 'bankcurrency.tasks.create_alphabank_currency',
-        'schedule': crontab(1),
+        'schedule': crontab(hour=1),
     }
 
 }

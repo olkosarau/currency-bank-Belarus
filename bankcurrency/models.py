@@ -43,7 +43,7 @@ class UnAuth(models.Model):
     ]
     company = models.CharField(max_length=255, choices=BANKS, blank=False, default=ALPHABANK)
     date = models.DateTimeField(auto_now=True, verbose_name='Дата Курса Валют')
-    usd = models.DecimalField(max_digits=5, decimal_places=2, default='1', verbose_name="Продажа USD")
+    usd = models.DecimalField(max_digits=5, decimal_places=2, default=1, verbose_name="Продажа USD")
     rur = models.DecimalField(max_digits=5, decimal_places=2, default='1', verbose_name="Продажа RUR")
     eur = models.DecimalField(max_digits=5, decimal_places=2, default='1', verbose_name="Продажа EUR")
 

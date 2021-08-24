@@ -5,8 +5,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
 from django.contrib import messages
-from users.forms import LoginForm, RegisterUserForm
-from .models import User
+from users.forms import RegisterUserForm
 
 
 class RegisterFormView(FormView):
@@ -16,14 +15,13 @@ class RegisterFormView(FormView):
 
     def post(self, request, *args, **kwargs):
         if request.method == 'POST':
-            print('999')
             form = RegisterUserForm(request.POST)
             if form.is_valid():
                 messages.success(request, 'Вы Зарегистрировались!!!')
                 form.save()
                 return redirect('/login')
             else:
-                print('666666')
+                redirect('/register')
         else:
             form = RegisterUserForm()
 
@@ -36,7 +34,7 @@ class LoginFormView(LoginView):
     template_name = 'users/login.html'
     success_url = reverse_lazy('/company/')
 
-    def post(self, request):
+    def post(self, request, **kwargs):
         if request.method == 'POST':
             username = request.POST['username']
             password = request.POST['password']

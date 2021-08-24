@@ -1,8 +1,8 @@
-import xml.etree.ElementTree as et
-from .models import Auth, UnAuth
+import xml.etree.ElementTree as ET
+from .models import Auth
 from devtest.celery import app
 import requests
-from datetime import datetime
+
 
 @app.task
 def create_alphabank_currency():
@@ -23,7 +23,7 @@ def create_alphabank_currency():
 @app.task
 def create_belagro_currency():
     curr_req = requests.get('https://belapb.by/ExCardsDaily.php?')
-    tree = et.ElementTree(et.fromstring(curr_req.text))
+    tree = ET.ElementTree(ET.fromstring(curr_req.text))
     root = tree.getroot()
 
     s_eur_buy = root[1][3].text

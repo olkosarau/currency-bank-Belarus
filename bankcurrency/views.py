@@ -9,9 +9,6 @@ from bankcurrency.curview.unauth import alfabankun, belagroun, belarusbankun
 from rest_framework.views import Response
 
 
-"""Для авторизированных пользователей АльфаБанк"""
-
-
 class AuthViewSet(GenericAPIView):
     queryset = bankcurrency.models.Auth.objects.all()
     permissions_classes = permissions.IsAuthenticated
@@ -19,19 +16,19 @@ class AuthViewSet(GenericAPIView):
 
     @api_view(['GET'])
     def alfa_bank(self):
-        return alfabank(self)
+        return alfabank()
 
     @api_view(['GET'])
     def bel_agro(self):
-        return belagro(self)
+        return belagro()
 
     @api_view(['GET'])
     def belarus_bank(self):
-        return belarusbank(self)
+        return belarusbank()
 
     @api_view(['GET'])
     def data_date_current(self):
-        tutors = Auth.objects.filter(date__day=18)
+        tutors = Auth.objects.filter(date__day=19)
         tutor = AuthSerializer(tutors, many=True)
         return Response(tutor.data)
 
@@ -42,9 +39,6 @@ class AuthViewSet(GenericAPIView):
         return Response(tutor.data)
 
 
-"""Для неавторизированных пользователей"""
-
-
 class UnAuthViewSet(GenericAPIView):
     queryset = UnAuth.objects.all()
     permissions_classes = permissions.AllowAny
@@ -52,13 +46,12 @@ class UnAuthViewSet(GenericAPIView):
 
     @api_view(['GET'])
     def alfa_bank(self):
-        return alfabankun(self)
+        return alfabankun()
 
     @api_view(['GET'])
     def bel_agro(self):
-        return belagroun(self)
+        return belagroun()
 
     @api_view(['GET'])
     def belarus_bank(self):
-        return belarusbankun(self)
-
+        return belarusbankun()

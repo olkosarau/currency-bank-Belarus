@@ -2,10 +2,10 @@ import requests
 from bankcurrency.models import UnAuth
 from datetime import datetime
 from rest_framework.views import Response
-import xml.etree.ElementTree as et
+import xml.etree.ElementTree as ET
 
 
-def alfabankun(self):
+def alfabankun():
     curr_req = requests.get('https://developerhub.alfabank.by:8273/partner/1.0.1/public/rates')
     data = curr_req.json()
     cur_rur_sell = data['rates'][3]['buyRate']
@@ -24,10 +24,9 @@ def alfabankun(self):
                      })
 
 
-def belagroun(self):
+def belagroun():
     curr_req = requests.get('https://belapb.by/ExCardsDaily.php?')
-    print(curr_req.status_code)
-    tree = et.ElementTree(et.fromstring(curr_req.text))
+    tree = ET.ElementTree(ET.fromstring(curr_req.text))
     root = tree.getroot()
 
     s_date = datetime.now().strftime("%d-%m-%Y %H:%M")
@@ -46,13 +45,12 @@ def belagroun(self):
                      })
 
 
-def belarusbankun(self):
+def belarusbankun():
     curr_req = requests.get('https://belarusbank.by/api/kursExchange?city=Минск')
     data = curr_req.json()
     cur_rur_sell = data[0]['RUB_out']
     cur_eur_sell = data[0]['EUR_out']
     cur_usd_sell = data[0]['USD_out']
-
     date_time_obj = datetime.now().strftime("%d-%m-%Y %H:%M")
 
     cur_new = UnAuth.objects.create(company=UnAuth.BELARUSBANK, eur=cur_eur_sell,

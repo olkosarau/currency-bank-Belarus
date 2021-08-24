@@ -2,10 +2,10 @@ import requests
 from bankcurrency.models import Auth
 from datetime import datetime
 from rest_framework.views import Response
-import xml.etree.ElementTree as et
+import xml.etree.ElementTree as ET
 
 
-def alfabank(self):
+def alfabank():
     curr_req = requests.get('https://developerhub.alfabank.by:8273/partner/1.0.1/public/rates')
     data = curr_req.json()
     cur_rur_sell = data['rates'][3]['buyRate']
@@ -31,10 +31,9 @@ def alfabank(self):
                      })
 
 
-def belagro(self):
+def belagro():
     curr_req = requests.get('https://belapb.by/ExCardsDaily.php?')
-    print(curr_req.status_code)
-    tree = et.ElementTree(et.fromstring(curr_req.text))
+    tree = ET.ElementTree(ET.fromstring(curr_req.text))
     root = tree.getroot()
 
     s_date = datetime.now().strftime("%d-%m-%Y %H:%M")
@@ -60,7 +59,7 @@ def belagro(self):
                      })
 
 
-def belarusbank(self):
+def belarusbank():
     curr_req = requests.get('https://belarusbank.by/api/kursExchange?city=Минск')
     data = curr_req.json()
     cur_rur_buy = data[0]['RUB_in']
