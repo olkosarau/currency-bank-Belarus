@@ -28,16 +28,14 @@ services:
         - pg_db
         - redis
   worker:
-      build:
-        context: .
-      command: celery -A devtest worker
+      build: .
+      command: celery -A devtest worker -l
       depends_on:
         - pg_db
         - redis
   beat:
     restart: always
-    build:
-      context: .
+    build: .
     command: celery -A devtest beat
     depends_on:
       - pg_db
