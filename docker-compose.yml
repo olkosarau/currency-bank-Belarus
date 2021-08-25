@@ -17,6 +17,31 @@ services:
       - app_db:/var/lib/postgresql/data
     ports:
       - "5434:5432"
+  web:
+      build: .
+      command: python manage.py runserver 0.0.0.0:8000
+      volumes:
+        - .:/code
+      ports:
+        - "8000:8000"
+      depends_on:
+        - pg_db
+        - redis
+  worker:
+      build:
+        context: .
+      command: celery -A devtest worker
+      depends_on:
+        - pg_db
+        - redis
+  beat:
+    restart: always
+    build:
+      context: .
+    command: celery -A devtest beat
+    depends_on:
+      - pg_db
+      - redis
 
 volumes:
   app_db: {}

@@ -9,13 +9,11 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-import datetime
 import os
-import pytz
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-from django.core.mail.backends import smtp
+
 from django.urls import reverse_lazy
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -88,8 +86,8 @@ DATABASES = {
         'NAME': 'bankcurr',
         'USER': 'curr',
         'PASSWORD': '1111',
-        'HOST': '0.0.0.0',
-        'PORT': '5434',
+        'HOST': 'pg_db',
+        'PORT': '5432',
     }
 }
 
@@ -125,8 +123,8 @@ USE_TZ = True
 CELERY_TIMEZONE = "Europe/Minsk"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
-CELERY_BROKER_URL = "redis://localhost:6379/0"
-CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
+CELERY_BROKER_URL = "redis://redis:6379/0"
+CELERY_RESULT_BACKEND = "redis://redis:6379/0"
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 # Static files (CSS, JavaScript, Images)
