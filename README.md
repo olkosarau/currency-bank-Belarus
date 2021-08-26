@@ -52,7 +52,4 @@
 ---
 
 #### 6. Terminal
-* python manage.py runserver
 * docker-compose up
-* celery -A devtest worker -l INFO
-* celery -A devtest beat -l INFO
