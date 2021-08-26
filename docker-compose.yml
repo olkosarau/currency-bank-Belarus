@@ -29,7 +29,7 @@ services:
         - redis
   worker:
       build: .
-      command: celery -A devtest worker -l
+      command: celery -A devtest worker
       depends_on:
         - pg_db
         - redis
