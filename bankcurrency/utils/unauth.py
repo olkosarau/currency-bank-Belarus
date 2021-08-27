@@ -13,9 +13,9 @@ def alfabankun():
     cur_usd_sell = data['rates'][5]['buyRate']
     date_time_obj = datetime.now().strftime("%d-%m-%Y %H:%M")
 
-    cur_new = UnAuth.objects.create(company=UnAuth.ALPHABANK, eur=cur_eur_sell,
-                                    usd=cur_usd_sell, rur=cur_rur_sell)
-    cur_new.save()
+    UnAuth.objects.create(company=UnAuth.ALPHABANK, eur=cur_eur_sell,
+                          usd=cur_usd_sell, rur=cur_rur_sell)
+
     return Response({'company': UnAuth.ALPHABANK,
                      'usd': cur_usd_sell,
                      'eur': cur_eur_sell,
@@ -34,9 +34,9 @@ def belagroun():
     s_usd_sell = root[0][4].text
     s_rur_sell = root[2][4].text
 
-    cur_new = UnAuth.objects.create(company=UnAuth.BELAGROPROMBANK, eur=s_eur_sell,
-                                    usd=s_usd_sell, rur=s_rur_sell)
-    cur_new.save()
+    UnAuth.objects.create(company=UnAuth.BELAGROPROMBANK, eur=s_eur_sell,
+                          usd=s_usd_sell, rur=s_rur_sell)
+
     return Response({'company': UnAuth.BELAGROPROMBANK,
                      'usd': s_usd_sell,
                      'eur': s_eur_sell,
@@ -53,9 +53,9 @@ def belarusbankun():
     cur_usd_sell = data[0]['USD_out']
     date_time_obj = datetime.now().strftime("%d-%m-%Y %H:%M")
 
-    cur_new = UnAuth.objects.create(company=UnAuth.BELARUSBANK, eur=cur_eur_sell,
-                                    usd=cur_usd_sell, rur=cur_rur_sell)
-    cur_new.save()
+    UnAuth.objects.create(company=UnAuth.BELARUSBANK, eur=cur_eur_sell,
+                          usd=cur_usd_sell, rur=cur_rur_sell)
+
     return Response({'company': UnAuth.BELARUSBANK,
                      'usd': cur_usd_sell,
                      'eur': cur_eur_sell,

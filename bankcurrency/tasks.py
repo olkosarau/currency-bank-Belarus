@@ -1,4 +1,4 @@
-from .curview.task_selery import task_alfa, task_agro, task_bel
+from .utils.task_selery import task_alfa, task_agro, task_bel
 from devtest.celery import app
 
 

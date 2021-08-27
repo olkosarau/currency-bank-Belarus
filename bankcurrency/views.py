@@ -4,8 +4,8 @@ from rest_framework.generics import GenericAPIView
 from .models import Auth, UnAuth
 from .serializers import AuthSerializer, UnAuthSerializer
 import bankcurrency
-from bankcurrency.curview.auth import alfabank, belagro, belarusbank
-from bankcurrency.curview.unauth import alfabankun, belagroun, belarusbankun
+from bankcurrency.utils.auth import alfabank, belagro, belarusbank
+from bankcurrency.utils.unauth import alfabankun, belagroun, belarusbankun
 from rest_framework.views import Response
 
 

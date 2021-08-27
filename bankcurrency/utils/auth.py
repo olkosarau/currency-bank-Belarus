@@ -16,10 +16,10 @@ def alfabank():
     cur_usd_buy = data['rates'][5]['sellRate']
     date_time_obj = datetime.now().strftime("%d-%m-%Y %H:%M")
 
-    cur_new = Auth.objects.create(company=Auth.ALPHABANK, eur_buy=cur_eur_buy, eur_sell=cur_eur_sell,
-                                  usd_buy=cur_usd_buy, usd_sell=cur_usd_sell, rur_buy=cur_rur_buy,
-                                  rur_sell=cur_rur_sell)
-    cur_new.save()
+    Auth.objects.create(company=Auth.ALPHABANK, eur_buy=cur_eur_buy, eur_sell=cur_eur_sell,
+                        usd_buy=cur_usd_buy, usd_sell=cur_usd_sell, rur_buy=cur_rur_buy,
+                        rur_sell=cur_rur_sell)
+
     return Response({'company': Auth.ALPHABANK,
                      'usd_buy': cur_usd_buy,
                      'usd_sell': cur_usd_sell,
@@ -44,10 +44,10 @@ def belagro():
     s_rur_buy = root[2][3].text
     s_rur_sell = root[2][4].text
 
-    cur_new = Auth.objects.create(company=Auth.BELAGROPROMBANK, eur_buy=s_eur_buy, eur_sell=s_eur_sell,
-                                  usd_buy=s_usd_buy, usd_sell=s_usd_sell, rur_buy=s_rur_buy,
-                                  rur_sell=s_rur_sell)
-    cur_new.save()
+    Auth.objects.create(company=Auth.BELAGROPROMBANK, eur_buy=s_eur_buy, eur_sell=s_eur_sell,
+                        usd_buy=s_usd_buy, usd_sell=s_usd_sell, rur_buy=s_rur_buy,
+                        rur_sell=s_rur_sell)
+
     return Response({'company': Auth.BELAGROPROMBANK,
                      'usd_buy': s_usd_buy,
                      'usd_sell': s_usd_sell,
@@ -71,10 +71,10 @@ def belarusbank():
 
     date_time_obj = datetime.now().strftime("%d-%m-%Y %H:%M")
 
-    cur_new = Auth.objects.create(company=Auth.BELARUSBANK, eur_buy=cur_eur_buy, eur_sell=cur_eur_sell,
-                                  usd_buy=cur_usd_buy, usd_sell=cur_usd_sell, rur_buy=cur_rur_buy,
-                                  rur_sell=cur_rur_sell)
-    cur_new.save()
+    Auth.objects.create(company=Auth.BELARUSBANK, eur_buy=cur_eur_buy, eur_sell=cur_eur_sell,
+                        usd_buy=cur_usd_buy, usd_sell=cur_usd_sell, rur_buy=cur_rur_buy,
+                        rur_sell=cur_rur_sell)
+
     response = Response({'company': Auth.BELARUSBANK,
                          'usd_buy': cur_usd_buy,
                          'usd_sell': cur_usd_sell,
