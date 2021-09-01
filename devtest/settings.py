@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bankcurrency.apps.BankcurrencyConfig',
+    'bankcurrency',
     'rest_framework',
     'users',
     'django_celery_beat',
@@ -144,6 +144,6 @@ REST_FRAMEWORK = {
 }
 
 AUTH_USER_MODEL = 'users.User'
-LOGIN_REDIRECT_URL = reverse_lazy('company/')
+LOGIN_REDIRECT_URL = '/company/'
 
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'

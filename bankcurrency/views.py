@@ -3,14 +3,13 @@ from rest_framework.decorators import api_view
 from rest_framework.generics import GenericAPIView
 from .models import Auth, UnAuth
 from .serializers import AuthSerializer, UnAuthSerializer
-import bankcurrency
 from bankcurrency.utils.auth import alfabank, belagro, belarusbank
 from bankcurrency.utils.unauth import alfabankun, belagroun, belarusbankun
 from rest_framework.views import Response
 
 
 class AuthViewSet(GenericAPIView):
-    queryset = bankcurrency.models.Auth.objects.all()
+    queryset = Auth.objects.all()
     permissions_classes = permissions.IsAuthenticated
     serializer_class = AuthSerializer
 
@@ -27,16 +26,27 @@ class AuthViewSet(GenericAPIView):
         return belarusbank()
 
     @api_view(['GET'])
-    def data_date_current(self):
-        tutors = Auth.objects.filter(date__day=19)
-        tutor = AuthSerializer(tutors, many=True)
-        return Response(tutor.data)
+    def alfa_query(self):
+        queryset = Auth.objects.all()
+        company = self.request.query_params.get('company')
+        date = self.request.query_params.get('date')
+        if company is not None:
+            if date is not None:
+                queryset = queryset.filter(purchaser__date=date)
+
+        return queryset
 
     @api_view(['GET'])
     def data_date_interval(self):
-        tutors = Auth.objects.filter(date__day=18, company='АльфаБанк').filter(date__day=18)
-        tutor = AuthSerializer(tutors, many=True)
-        return Response(tutor.data)
+        queryset = Auth.objects.all()
+        company = self.request.query_params.get('company')
+        date_start = self.request.query_params.get('date_start')
+        date_end = self.request.query_params.get('date_end')
+        if company is not None:
+            if date_start is not None:
+                if date_end is not None:
+                    queryset = queryset.filter(date__range=[date_start, date_end])
+        return queryset
 
 
 class UnAuthViewSet(GenericAPIView):

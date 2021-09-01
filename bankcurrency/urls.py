@@ -9,7 +9,7 @@ urlpatterns = [
     path('alfabankUn', UnAuthViewSet.alfa_bank),
     path('belagroUn', UnAuthViewSet.bel_agro),
     path('belbankUn', UnAuthViewSet.belarus_bank),
-    path('datecurrent', AuthViewSet.data_date_current),
+    path('datecurrent', AuthViewSet.alfa_query),
     path('dateinterval', AuthViewSet.data_date_interval),
 
 
