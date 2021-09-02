@@ -27,7 +27,7 @@ class Auth(models.Model):
         pass
 
     def __str__(self):
-        return self.date
+        return self.company
 
 
 class UnAuth(models.Model):
@@ -51,4 +51,4 @@ class UnAuth(models.Model):
         pass
 
     def __str__(self):
-        return self.date
+        return self.company
