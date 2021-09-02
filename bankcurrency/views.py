@@ -14,17 +14,17 @@ class AuthViewSet(GenericAPIView):
 
     @api_view(['GET'])
     def currency_alfa_bank_today(self):
-        result = Auth.objects.filter(company=Auth.ALPHABANK).values().order_by('-id').first()
+        result = Auth.objects.filter(company=Auth.ALPHABANK).values().order_by('id').last()
         return Response(result)
 
     @api_view(['GET'])
     def currency_bel_agro_today(self):
-        result = Auth.objects.filter(company=Auth.BELAGROPROMBANK).values().order_by('-id').first()
+        result = Auth.objects.filter(company=Auth.BELAGROPROMBANK).values().order_by('id').last()
         return Response(result)
 
     @api_view(['GET'])
     def currensy_belarus_bank_today(self):
-        result = Auth.objects.filter(company=Auth.BELARUSBANK).values().order_by('-id').first()
+        result = Auth.objects.filter(company=Auth.BELARUSBANK).values().order_by('id').last()
         return Response(result)
 
     @api_view(['GET'])
