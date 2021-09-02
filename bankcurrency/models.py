@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 
 
-class Auth(models.Model):
+class CurrencyAuthUser(models.Model):
     """для авторизованных пользователей"""
 
     ALPHABANK = 'АльфаБанк'
@@ -24,13 +24,14 @@ class Auth(models.Model):
     rur_sell = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='Продажа RUR')
 
     class Meta:
-        pass
+        verbose_name = 'currency'
+        db_table = 'currency_auth_user'
 
     def __str__(self):
         return self.company
 
 
-class UnAuth(models.Model):
+class CurrencyUnAuthUser(models.Model):
     """для неавторизованных пользователей"""
     ALPHABANK = 'АльфаБанк'
     BELAGROPROMBANK = 'БелАгроПромБанк'
@@ -48,7 +49,8 @@ class UnAuth(models.Model):
     eur = models.DecimalField(max_digits=5, decimal_places=2, verbose_name="Продажа EUR")
 
     class Meta:
-        pass
+        verbose_name = 'currency'
+        db_table = 'currency_un_auth_user'
 
     def __str__(self):
         return self.company

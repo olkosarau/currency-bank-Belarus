@@ -1,35 +1,36 @@
 from rest_framework import permissions
 from rest_framework.decorators import api_view
 from rest_framework.generics import GenericAPIView
-from .models import Auth, UnAuth
-from .serializers import AuthSerializer, UnAuthSerializer
+from .models import CurrencyAuthUser, CurrencyUnAuthUser
+from .serializers import CurrencyAuthUserSerializer, CurrencyUnAuthUserSerializer
 from bankcurrency.utils.unauth import alfabankun, belagroun, belarusbankun
 from rest_framework.views import Response
 
 
 class AuthViewSet(GenericAPIView):
-    queryset = Auth.objects.all()
+    queryset = CurrencyAuthUser.objects.all()
     permissions_classes = permissions.IsAuthenticated
-    serializer_class = AuthSerializer
+    serializer_class = CurrencyAuthUserSerializer
 
     @api_view(['GET'])
     def currency_alfa_bank_today(self):
-        result = Auth.objects.filter(company=Auth.ALPHABANK).values().order_by('id').last()
+        result = CurrencyAuthUser.objects.filter(company=CurrencyAuthUser.ALPHABANK).values().order_by('id').last()
         return Response(result)
 
     @api_view(['GET'])
     def currency_bel_agro_today(self):
-        result = Auth.objects.filter(company=Auth.BELAGROPROMBANK).values().order_by('id').last()
+        result = CurrencyAuthUser.objects.filter(company=CurrencyAuthUser.BELAGROPROMBANK).values().order_by(
+            'id').last()
         return Response(result)
 
     @api_view(['GET'])
     def currensy_belarus_bank_today(self):
-        result = Auth.objects.filter(company=Auth.BELARUSBANK).values().order_by('id').last()
+        result = CurrencyAuthUser.objects.filter(company=CurrencyAuthUser.BELARUSBANK).values().order_by('id').last()
         return Response(result)
 
     @api_view(['GET'])
     def date_get_queryset(self):
-        queryset = Auth.objects.get()
+        queryset = CurrencyAuthUser.objects.get()
         date = self.request.query_params.get['date']
 
         if date:
@@ -37,22 +38,20 @@ class AuthViewSet(GenericAPIView):
 
         return queryset
 
-
-    def interval_get_queryset (self):
-        queryset = Auth.objects.get()
+    def interval_get_queryset(self):
+        queryset = CurrencyAuthUser.objects.get()
         date_start = self.request.query_params.get['date_start']
         date_end = self.request.query_params.get['date_end']
-        if date_start and date_end :
-            queryset = queryset.filter(date__range = [date_start, date_end])
+        if date_start and date_end:
+            queryset = queryset.filter(date__range=[date_start, date_end])
 
         return queryset
 
 
-
 class UnAuthViewSet(GenericAPIView):
-    queryset = UnAuth.objects.all()
+    queryset = CurrencyUnAuthUser.objects.all()
     permissions_classes = permissions.AllowAny
-    serializer_class = UnAuthSerializer
+    serializer_class = CurrencyUnAuthUserSerializer
 
     @api_view(['GET'])
     def currency_alfa_bank_today(self):

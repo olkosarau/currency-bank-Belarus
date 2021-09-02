@@ -1,15 +1,15 @@
 from rest_framework import serializers
-from .models import Auth, UnAuth
+from .models import CurrencyAuthUser, CurrencyUnAuthUser
 
 
-class AuthSerializer(serializers.ModelSerializer):
+class CurrencyAuthUserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Auth
+        model = CurrencyAuthUser
         fields = '__all__'
 
 
-class UnAuthSerializer(serializers.ModelSerializer):
+class CurrencyUnAuthUserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = UnAuth
+        model = CurrencyUnAuthUser
         fields = '__all__'
 

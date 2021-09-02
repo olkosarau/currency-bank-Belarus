@@ -1,5 +1,5 @@
 import requests
-from bankcurrency.models import UnAuth
+from bankcurrency.models import CurrencyUnAuthUser
 from datetime import datetime
 from rest_framework.views import Response
 import xml.etree.ElementTree as ET
@@ -13,10 +13,10 @@ def alfabankun():
     cur_usd_sell = data['rates'][5]['buyRate']
     date_time_obj = datetime.now().strftime("%d-%m-%Y %H:%M")
 
-    UnAuth.objects.create(company=UnAuth.ALPHABANK, eur=cur_eur_sell,
+    CurrencyUnAuthUser.objects.create(company=CurrencyUnAuthUser.ALPHABANK, eur=cur_eur_sell,
                           usd=cur_usd_sell, rur=cur_rur_sell)
 
-    return Response({'company': UnAuth.ALPHABANK,
+    return Response({'company': CurrencyUnAuthUser.ALPHABANK,
                      'usd': cur_usd_sell,
                      'eur': cur_eur_sell,
                      'rur': cur_rur_sell,
@@ -34,10 +34,10 @@ def belagroun():
     s_usd_sell = root[0][4].text
     s_rur_sell = root[2][4].text
 
-    UnAuth.objects.create(company=UnAuth.BELAGROPROMBANK, eur=s_eur_sell,
+    CurrencyUnAuthUser.objects.create(company=CurrencyUnAuthUser.BELAGROPROMBANK, eur=s_eur_sell,
                           usd=s_usd_sell, rur=s_rur_sell)
 
-    return Response({'company': UnAuth.BELAGROPROMBANK,
+    return Response({'company': CurrencyUnAuthUser.BELAGROPROMBANK,
                      'usd': s_usd_sell,
                      'eur': s_eur_sell,
                      'rur': s_rur_sell,
@@ -53,10 +53,10 @@ def belarusbankun():
     cur_usd_sell = data[0]['USD_out']
     date_time_obj = datetime.now().strftime("%d-%m-%Y %H:%M")
 
-    UnAuth.objects.create(company=UnAuth.BELARUSBANK, eur=cur_eur_sell,
+    CurrencyUnAuthUser.objects.create(company=CurrencyUnAuthUser.BELARUSBANK, eur=cur_eur_sell,
                           usd=cur_usd_sell, rur=cur_rur_sell)
 
-    return Response({'company': UnAuth.BELARUSBANK,
+    return Response({'company': CurrencyUnAuthUser.BELARUSBANK,
                      'usd': cur_usd_sell,
                      'eur': cur_eur_sell,
                      'rur': cur_rur_sell,

@@ -1,6 +1,6 @@
 from devtest.celery import app
 import requests
-from bankcurrency.models import Auth
+from bankcurrency.models import CurrencyAuthUser
 import xml.etree.ElementTree as ET
 
 
@@ -15,7 +15,7 @@ def create_alphabank_currency():
     cur_usd_sell = data['rates'][5]['buyRate']
     cur_usd_buy = data['rates'][5]['sellRate']
 
-    Auth.objects.create(company=Auth.ALPHABANK, eur_buy=cur_eur_buy, eur_sell=cur_eur_sell,
+    CurrencyAuthUser.objects.create(company=CurrencyAuthUser.ALPHABANK, eur_buy=cur_eur_buy, eur_sell=cur_eur_sell,
                         usd_buy=cur_usd_buy, usd_sell=cur_usd_sell,
                         rur_buy=cur_rur_buy, rur_sell=cur_rur_sell)
 
@@ -33,7 +33,7 @@ def create_belagro_currency():
     s_rur_buy = root[2][3].text
     s_rur_sell = root[2][4].text
 
-    Auth.objects.create(company=Auth.BELAGROPROMBANK, eur_buy=s_eur_buy, eur_sell=s_eur_sell,
+    CurrencyAuthUser.objects.create(company=CurrencyAuthUser.BELAGROPROMBANK, eur_buy=s_eur_buy, eur_sell=s_eur_sell,
                         usd_buy=s_usd_buy, usd_sell=s_usd_sell,
                         rur_buy=s_rur_buy, rur_sell=s_rur_sell)
 
@@ -49,6 +49,6 @@ def create_belarusbank_currency():
     cur_usd_buy = data[0]['USD_in']
     cur_usd_sell = data[0]['USD_out']
 
-    Auth.objects.create(company=Auth.BELARUSBANK, eur_buy=cur_eur_buy, eur_sell=cur_eur_sell,
+    CurrencyAuthUser.objects.create(company=CurrencyAuthUser.BELARUSBANK, eur_buy=cur_eur_buy, eur_sell=cur_eur_sell,
                         usd_buy=cur_usd_buy, usd_sell=cur_usd_sell,
                         rur_buy=cur_rur_buy, rur_sell=cur_rur_sell)
