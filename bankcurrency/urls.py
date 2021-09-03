@@ -11,8 +11,7 @@ urlpatterns = [
     path('belbankUn', UnAuthViewSet.currensy_belarus_bank_today),
     path('datetoday/', FilterDateView.as_view()),
     path('dateinterval/', FilterDateIntervalView.as_view()),
-    # path('datecurrent/', AuthViewSet.get_queryset),
-    # path('dateinterval', AuthViewSet.interval_get_queryset),
+
 
 
 ]

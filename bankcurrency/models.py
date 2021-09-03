@@ -5,9 +5,9 @@ from django.utils import timezone
 class CurrencyAuthUser(models.Model):
     """для авторизованных пользователей"""
 
-    ALPHABANK = 'АльфаБанк'
-    BELAGROPROMBANK = 'БелАгроПромБанк'
-    BELARUSBANK = 'БеларусБанк'
+    ALPHABANK = 'Альфабанк'
+    BELAGROPROMBANK = 'Белагропромбанк'
+    BELARUSBANK = 'Беларусбанк'
 
     BANKS = [
         (ALPHABANK, 'Альфабанк'),
