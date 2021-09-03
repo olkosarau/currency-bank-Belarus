@@ -18,7 +18,6 @@ class AuthViewSet(GenericAPIView):
     @api_view(['GET'])
     def currency_alfa_bank_today(self):
         result = CurrencyAuthUser.objects.filter(company=CurrencyAuthUser.ALPHABANK).values().order_by('id').last()
-        print(result, 'opopopo')
         return Response(result)
 
     @api_view(['GET'])
