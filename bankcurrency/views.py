@@ -1,16 +1,19 @@
-from rest_framework import permissions
+from rest_framework import permissions, generics
 from rest_framework.decorators import api_view
 from rest_framework.generics import GenericAPIView
 from .models import CurrencyAuthUser, CurrencyUnAuthUser
 from .serializers import CurrencyAuthUserSerializer, CurrencyUnAuthUserSerializer
 from bankcurrency.utils.unauth import alfabankun, belagroun, belarusbankun
 from rest_framework.views import Response
+from rest_framework.filters import SearchFilter
 
 
 class AuthViewSet(GenericAPIView):
     queryset = CurrencyAuthUser.objects.all()
     permissions_classes = permissions.IsAuthenticated
     serializer_class = CurrencyAuthUserSerializer
+    filter_backends = [SearchFilter]
+    search_fields = ['date']
 
     @api_view(['GET'])
     def currency_alfa_bank_today(self):
@@ -28,25 +31,26 @@ class AuthViewSet(GenericAPIView):
         result = CurrencyAuthUser.objects.filter(company=CurrencyAuthUser.BELARUSBANK).values().order_by('id').last()
         return Response(result)
 
-    @api_view(['GET'])
-    def date_get_queryset(self):
-        queryset = CurrencyAuthUser.objects.get()
-        date = self.request.query_params.get['date']
+class FilterDateView(generics.ListAPIView):
+    queryset = CurrencyAuthUser.objects.all()
+    serializer_class = CurrencyAuthUserSerializer
+    def get_queryset(self):
+        qs = CurrencyAuthUser.objects.all()
+        company = self.request.query_params.get('company')
+        date = self.request.query_params.get('date')
+        return qs.filter(company__exact=company).values().filter(date__day=date)
 
-        if date:
-            queryset = queryset.filter(date_id=date)
+class FilterDateIntervalView(generics.ListAPIView):
+    queryset = CurrencyAuthUser.objects.all()
+    serializer_class = CurrencyAuthUserSerializer
 
-        return queryset
-
-    def interval_get_queryset(self):
-        queryset = CurrencyAuthUser.objects.get()
-        date_start = self.request.query_params.get['date_start']
-        date_end = self.request.query_params.get['date_end']
-        if date_start and date_end:
-            queryset = queryset.filter(date__range=[date_start, date_end])
-
-        return queryset
-
+    def get_queryset(self):
+        qs = CurrencyAuthUser.objects.all()
+        company = self.request.query_params.get('company')
+        date_start = self.request.query_params.get('date_start')
+        date_end = self.request.query_params.get('date_end')
+        return qs.filter(date__day__gte=date_start, date__day__lte=date_end).values().\
+                  filter(company__exact=company)
 
 class UnAuthViewSet(GenericAPIView):
     queryset = CurrencyUnAuthUser.objects.all()
