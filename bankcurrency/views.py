@@ -18,6 +18,7 @@ class AuthViewSet(GenericAPIView):
     @api_view(['GET'])
     def currency_alfa_bank_today(self):
         result = CurrencyAuthUser.objects.filter(company=CurrencyAuthUser.ALPHABANK).values().order_by('id').last()
+        print(result, 'opopopo')
         return Response(result)
 
     @api_view(['GET'])
@@ -49,8 +50,7 @@ class FilterDateIntervalView(generics.ListAPIView):
         company = self.request.query_params.get('company')
         date_start = self.request.query_params.get('date_start')
         date_end = self.request.query_params.get('date_end')
-        return qs.filter(date__day__gte=date_start, date__day__lte=date_end).values().\
-                  filter(company__exact=company)
+        return qs.filter(date__range=[date_start,date_end],company__exact=company).values()
 
 class UnAuthViewSet(GenericAPIView):
     queryset = CurrencyUnAuthUser.objects.all()

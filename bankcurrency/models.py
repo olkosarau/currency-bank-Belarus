@@ -5,14 +5,14 @@ from django.utils import timezone
 class CurrencyAuthUser(models.Model):
     """для авторизованных пользователей"""
 
-    ALPHABANK = 'Альфабанк'
-    BELAGROPROMBANK = 'Белагропромбанк'
-    BELARUSBANK = 'Беларусбанк'
+    ALPHABANK = 'АльфаБанк'
+    BELAGROPROMBANK = 'БелАгроПромБанк'
+    BELARUSBANK = 'АльфаБанк'
 
     BANKS = [
-        (ALPHABANK, 'Альфабанк'),
-        (BELAGROPROMBANK, 'Белагропром'),
-        (BELARUSBANK, 'Беларусбанк'),
+        (ALPHABANK, 'АльфаБанк'),
+        (BELAGROPROMBANK, 'БелАгроПромБанк'),
+        (BELARUSBANK, 'АльфаБанк'),
     ]
     company = models.CharField(max_length=255, choices=BANKS, blank=False)
     date = models.DateTimeField(verbose_name='Дата Курса Валют', default=timezone.now)
