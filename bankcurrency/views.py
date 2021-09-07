@@ -1,10 +1,11 @@
 from rest_framework import permissions, generics
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import GenericAPIView
+from rest_framework.permissions import AllowAny
 from .models import CurrencyAuthUser, CurrencyUnAuthUser
 from .serializers import CurrencyAuthUserSerializer, CurrencyUnAuthUserSerializer
 from bankcurrency.utils.unauth import alfabankun, belagroun, belarusbankun
-from rest_framework.views import Response
+from rest_framework.views import Response, APIView
 
 
 class AuthViewSet(GenericAPIView):
@@ -12,13 +13,22 @@ class AuthViewSet(GenericAPIView):
     permissions_classes = permissions.IsAuthenticated
     serializer_class = CurrencyAuthUserSerializer
 
+    def replace(bank):
+        if bank == 'alfabank':
+            return 'АльфаБанк'
+        elif bank == 'belagro':
+            return 'БелАгроПромБанк'
+        elif bank == 'belbank':
+            return 'БеларусБанк'
+
     @api_view(['GET'])
     def currency_bank_today(self, bank):
-        if CurrencyAuthUser.objects.filter(company=bank).exists():
-            result = CurrencyAuthUser.objects.filter(company="{0}".format(bank)).values().last()
+        rez = AuthViewSet.replace(bank)
+        if CurrencyAuthUser.objects.filter(company=rez).exists():
+            result = CurrencyAuthUser.objects.filter(company="{0}".format(rez)).values().last()
             return Response(result)
         else:
-            return Response("Названия такого банка нет. Попробуйте ввести правильно!!!")
+            return Response("Названия такого банка нет. Попробуйте ввести правильно!!!", 204)
 
 
 class FilterDateView(generics.ListAPIView):
@@ -46,22 +56,22 @@ class FilterDateIntervalView(generics.ListAPIView):
         return qs.filter(date__range=[date_start, date_end], company__iexact=company).values()
 
 
-class UnAuthViewSet(GenericAPIView):
+class UnAuthViewSet(APIView):
     queryset = CurrencyUnAuthUser.objects.all()
-    permissions_classes = permissions.AllowAny
     serializer_class = CurrencyUnAuthUserSerializer
 
     @api_view(['GET'])
+    @permission_classes([AllowAny])
     def currency_bank_today(self, bank):
-
-        if CurrencyAuthUser.objects.filter(company=bank).exists():
-            if bank == "АльфаБанк":
+        rez = AuthViewSet.replace(bank)
+        if CurrencyAuthUser.objects.filter(company=rez).exists():
+            if rez == "АльфаБанк":
                 alfabankun()
-            elif bank == "БелАгроПромБанк":
+            elif rez == "БелАгроПромБанк":
                 belagroun()
-            elif bank == "БеларусБанк":
+            elif rez == "БеларусБанк":
                 belarusbankun()
-            result = CurrencyUnAuthUser.objects.filter(company="{0}".format(bank)).values().last()
+            result = CurrencyUnAuthUser.objects.filter(company="{0}".format(rez)).values().last()
             return Response(result)
         else:
-            return Response("Банка нет")
+            return Response("Банка нет", 204)

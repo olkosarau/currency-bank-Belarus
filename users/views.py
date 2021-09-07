@@ -35,4 +35,4 @@ class LoginFormView(LoginView):
 def logout_user(request):
     logout(request)
     messages.success(request, 'Вы Вышли Из Системы')
-    return redirect('company/')
+    return redirect('/company/')
