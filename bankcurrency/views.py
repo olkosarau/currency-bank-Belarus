@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.generics import GenericAPIView
 from .models import CurrencyAuthUser, CurrencyUnAuthUser
 from .serializers import CurrencyAuthUserSerializer, CurrencyUnAuthUserSerializer
-from bankcurrency.utils.unauth import alfabankun, belagroun, belarusbankun
+from bankcurrency.utils.unauth import alfabankun
 from rest_framework.views import Response
 
 
@@ -13,19 +13,24 @@ class AuthViewSet(GenericAPIView):
     serializer_class = CurrencyAuthUserSerializer
 
     @api_view(['GET'])
-    def currency_alfa_bank_today(self):
-        result = CurrencyAuthUser.objects.filter(company=CurrencyAuthUser.ALPHABANK).values().last()
-        return Response(result)
+    def currency_bank_today(self, bank):
+        if CurrencyAuthUser.objects.filter(company=bank).exists():
+            result = CurrencyAuthUser.objects.filter(company="{0}".format(bank)).values().last()
+            return Response(result)
+        else:
+            return Response("Названия такого банка нет. Попробуйте ввести правильно!!!")
 
-    @api_view(['GET'])
-    def currency_bel_agro_today(self):
-        result = CurrencyAuthUser.objects.filter(company=CurrencyAuthUser.BELAGROPROMBANK).values().last()
-        return Response(result)
 
-    @api_view(['GET'])
-    def currensy_belarus_bank_today(self):
-        result = CurrencyAuthUser.objects.filter(company=CurrencyAuthUser.BELARUSBANK).values().last()
-        return Response(result)
+class FilterDateTodayView(generics.ListAPIView):
+    queryset = CurrencyAuthUser.objects.all()
+    permissions_classes = permissions.IsAuthenticated
+    serializer_class = CurrencyAuthUserSerializer
+
+    def get_queryset(self):
+        qs = CurrencyAuthUser.objects.all()
+        company = self.request.query_params.get('company')
+        date_today = self.request.query_params.get('date_today')
+        return qs.filter(company__iexact=company).values().filter(date__date=date_today)
 
 
 class FilterDateView(generics.ListAPIView):
@@ -59,19 +64,10 @@ class UnAuthViewSet(GenericAPIView):
     serializer_class = CurrencyUnAuthUserSerializer
 
     @api_view(['GET'])
-    def currency_alfa_bank_today(self):
-        alfabankun()
-        result = CurrencyUnAuthUser.objects.filter(company=CurrencyUnAuthUser.ALPHABANK).values().last()
-        return Response(result)
-
-    @api_view(['GET'])
-    def currency_bel_agro_today(self):
-        belagroun()
-        result = CurrencyUnAuthUser.objects.filter(company=CurrencyUnAuthUser.BELAGROPROMBANK).values().last()
-        return Response(result)
-
-    @api_view(['GET'])
-    def currensy_belarus_bank_today(self):
-        belarusbankun()
-        result = CurrencyUnAuthUser.objects.filter(company=CurrencyUnAuthUser.BELARUSBANK).values().last()
-        return Response(result)
+    def currency_bank_today(self, bank):
+        if CurrencyAuthUser.objects.filter(company=bank).exists():
+            alfabankun()
+            result = CurrencyUnAuthUser.objects.filter(company="{0}".format(bank)).values().last()
+            return Response(result)
+        else:
+            return Response("Банка нет")
