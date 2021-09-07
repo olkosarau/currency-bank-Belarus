@@ -1,6 +1,5 @@
 import requests
 from bankcurrency.models import CurrencyUnAuthUser
-from datetime import datetime
 import xml.etree.ElementTree as ET
 
 
@@ -12,8 +11,7 @@ def alfabankun():
     cur_usd_sell = data['rates'][5]['buyRate']
 
     return CurrencyUnAuthUser.objects.create(company=CurrencyUnAuthUser.ALPHABANK, eur=cur_eur_sell,
-                          usd=cur_usd_sell, rur=cur_rur_sell)
-
+                                             usd=cur_usd_sell, rur=cur_rur_sell)
 
 
 def belagroun():
@@ -26,8 +24,7 @@ def belagroun():
     s_rur_sell = root[2][4].text
 
     CurrencyUnAuthUser.objects.create(company=CurrencyUnAuthUser.BELAGROPROMBANK, eur=s_eur_sell,
-                          usd=s_usd_sell, rur=s_rur_sell)
-
+                                      usd=s_usd_sell, rur=s_rur_sell)
 
 
 def belarusbankun():
@@ -39,4 +36,3 @@ def belarusbankun():
 
     return CurrencyUnAuthUser.objects.create(company=CurrencyUnAuthUser.BELARUSBANK, eur=cur_eur_sell,
                                              usd=cur_usd_sell, rur=cur_rur_sell)
-
