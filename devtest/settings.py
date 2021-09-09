@@ -145,6 +145,6 @@ REST_FRAMEWORK = {
 }
 
 AUTH_USER_MODEL = 'users.User'
-LOGIN_REDIRECT_URL = '/company/'
+LOGIN_REDIRECT_URL = '/company/rates/'
 
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'

@@ -5,7 +5,7 @@ from rest_framework.permissions import AllowAny
 from .models import CurrencyAuthUser, CurrencyUnAuthUser
 from .serializers import CurrencyAuthUserSerializer, CurrencyUnAuthUserSerializer
 from bankcurrency.utils.unauth import alfabankun, belagroun, belarusbankun
-from rest_framework.views import Response, APIView
+from rest_framework.views import Response
 
 
 class AuthViewSet(GenericAPIView):
@@ -13,22 +13,14 @@ class AuthViewSet(GenericAPIView):
     permissions_classes = permissions.IsAuthenticated
     serializer_class = CurrencyAuthUserSerializer
 
-    def replace(bank):
-        if bank == 'alfabank':
-            return 'АльфаБанк'
-        elif bank == 'belagro':
-            return 'БелАгроПромБанк'
-        elif bank == 'belbank':
-            return 'БеларусБанк'
-
     @api_view(['GET'])
     def currency_bank_today(self, bank):
-        rez = AuthViewSet.replace(bank)
-        if CurrencyAuthUser.objects.filter(company=rez).exists():
-            result = CurrencyAuthUser.objects.filter(company="{0}".format(rez)).values().last()
-            return Response(result)
+        if bank in (CurrencyAuthUser.ALPHABANK,CurrencyAuthUser.BELAGROPROMBANK, CurrencyAuthUser.BELARUSBANK):
+            result = CurrencyAuthUser.objects.filter(company=bank).last()
+            serializer = CurrencyAuthUserSerializer(result)
+            return Response(serializer.data)
         else:
-            return Response("Названия такого банка нет. Попробуйте ввести правильно!!!", 204)
+            return Response("Названия такого банка нет. Попробуйте ввести правильно!!!", 400)
 
 
 class FilterDateView(generics.ListAPIView):
@@ -40,7 +32,8 @@ class FilterDateView(generics.ListAPIView):
         qs = CurrencyAuthUser.objects.all()
         company = self.request.query_params.get('company')
         date = self.request.query_params.get('date')
-        return qs.filter(company__iexact=company).values().filter(date__date=date)
+        if (company, date) is not None:
+            return qs.filter(company__iexact=company, date__date=date)
 
 
 class FilterDateIntervalView(generics.ListAPIView):
@@ -53,25 +46,26 @@ class FilterDateIntervalView(generics.ListAPIView):
         company = self.request.query_params.get('company')
         date_start = self.request.query_params.get('date_start')
         date_end = self.request.query_params.get('date_end')
-        return qs.filter(date__range=[date_start, date_end], company__iexact=company).values()
+        if (company, date_start, date_end) is not None:
+            return qs.filter(date__range=[date_start, date_end], company__iexact=company)
 
 
-class UnAuthViewSet(APIView):
+class UnAuthViewSet(GenericAPIView):
     queryset = CurrencyUnAuthUser.objects.all()
     serializer_class = CurrencyUnAuthUserSerializer
 
     @api_view(['GET'])
     @permission_classes([AllowAny])
-    def currency_bank_today(self, bank):
-        rez = AuthViewSet.replace(bank)
-        if CurrencyAuthUser.objects.filter(company=rez).exists():
-            if rez == "АльфаБанк":
+    def currency_bank_now(self, bank):
+        if bank in (CurrencyUnAuthUser.ALPHABANK,CurrencyUnAuthUser.BELAGROPROMBANK, CurrencyUnAuthUser.BELARUSBANK):
+            if bank == "alfabank":
                 alfabankun()
-            elif rez == "БелАгроПромБанк":
+            elif bank == "belagro":
                 belagroun()
-            elif rez == "БеларусБанк":
+            elif bank == "belbank":
                 belarusbankun()
-            result = CurrencyUnAuthUser.objects.filter(company="{0}".format(rez)).values().last()
-            return Response(result)
+            result = CurrencyUnAuthUser.objects.filter(company=bank).last()
+            serializer = CurrencyUnAuthUserSerializer(result)
+            return Response(serializer.data)
         else:
-            return Response("Банка нет", 204)
+            return Response("Названия такого банка нет. Попробуйте ввести правильно!!!", 400)

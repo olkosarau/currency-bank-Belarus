@@ -1,6 +1,6 @@
 from django.contrib.auth.views import LoginView
-from django.shortcuts import render, redirect
-from django.contrib.auth import logout, login, authenticate
+from django.shortcuts import redirect
+from django.contrib.auth import logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
@@ -22,7 +22,7 @@ class RegisterFormView(FormView):
 class LoginFormView(LoginView):
     form_class = AuthenticationForm
     template_name = 'users/login.html'
-    success_url = reverse_lazy('/company/')
+    success_url = reverse_lazy('/company/rates/')
 
     def validars(request):
         if request.user.is_authenticated():
@@ -35,4 +35,4 @@ class LoginFormView(LoginView):
 def logout_user(request):
     logout(request)
     messages.success(request, 'Вы Вышли Из Системы')
-    return redirect('/company/')
+    return redirect('/company/sellrates/')

@@ -4,15 +4,14 @@ from django.utils import timezone
 
 class CurrencyAuthUser(models.Model):
     """для авторизованных пользователей"""
-
-    ALPHABANK = 'АльфаБанк'
-    BELAGROPROMBANK = 'БелАгроПромБанк'
-    BELARUSBANK = 'АльфаБанк'
+    ALPHABANK = 'alfabank'
+    BELAGROPROMBANK = 'belagro'
+    BELARUSBANK = 'belbank'
 
     BANKS = [
-        (ALPHABANK, 'АльфаБанк'),
-        (BELAGROPROMBANK, 'БелАгроПромБанк'),
-        (BELARUSBANK, 'АльфаБанк'),
+        (ALPHABANK, 'alfabank'),
+        (BELAGROPROMBANK, 'belagro'),
+        (BELARUSBANK, 'belbank'),
     ]
     company = models.CharField(max_length=255, choices=BANKS, blank=False)
     date = models.DateTimeField(verbose_name='Дата Курса Валют', default=timezone.now)
@@ -33,14 +32,14 @@ class CurrencyAuthUser(models.Model):
 
 class CurrencyUnAuthUser(models.Model):
     """для неавторизованных пользователей"""
-    ALPHABANK = 'АльфаБанк'
-    BELAGROPROMBANK = 'БелАгроПромБанк'
-    BELARUSBANK = 'БеларусБанк'
+    ALPHABANK = 'alfabank'
+    BELAGROPROMBANK = 'belagro'
+    BELARUSBANK = 'belbank'
 
     BANKS = [
-        (ALPHABANK, 'Альфабанк'),
-        (BELAGROPROMBANK, 'Белагропром'),
-        (BELARUSBANK, 'Беларусбанк'),
+        (ALPHABANK, 'alfabank'),
+        (BELAGROPROMBANK, 'belagro'),
+        (BELARUSBANK, 'belbank'),
     ]
     company = models.CharField(max_length=255, choices=BANKS, blank=False)
     date = models.DateTimeField(auto_now=True, verbose_name='Дата Курса Валют')
