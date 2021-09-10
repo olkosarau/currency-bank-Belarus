@@ -19,7 +19,7 @@ class AuthViewSet(GenericAPIView):
             serializer = CurrencyAuthUserSerializer(result)
             return Response(serializer.data)
         else:
-            return Response("Названия такого банка нет. Попробуйте ввести правильно!!!", 400)
+            return Response("Названия такого банка нет. Попробуйте ввести правильно!!!", 404)
 
 
 class FilterDateTodayView(GenericAPIView):
@@ -79,4 +79,4 @@ class UnAuthViewSet(GenericAPIView):
             serializer = CurrencyUnAuthUserSerializer(result)
             return Response(serializer.data)
         else:
-            return Response("Названия такого банка нет. Попробуйте ввести правильно!!!", 400)
+            return Response("Названия такого банка нет. Попробуйте ввести правильно!!!", 404)
