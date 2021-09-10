@@ -1,6 +1,5 @@
 from datetime import date
 from rest_framework import permissions, generics
-from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import AllowAny
 from .models import CurrencyAuthUser, CurrencyUnAuthUser
@@ -14,9 +13,7 @@ class AuthViewSet(GenericAPIView):
     permissions_classes = permissions.IsAuthenticated
     serializer_class = CurrencyAuthUserSerializer
 
-    @api_view(['GET'])
-    def currency_bank_now(self, bank):
-
+    def get(self, request, bank):
         if bank in (CurrencyAuthUser.ALPHABANK, CurrencyAuthUser.BELAGROPROMBANK, CurrencyAuthUser.BELARUSBANK):
             result = CurrencyAuthUser.objects.filter(company=bank).last()
             serializer = CurrencyAuthUserSerializer(result)
@@ -30,8 +27,7 @@ class FilterDateTodayView(GenericAPIView):
     permissions_classes = permissions.IsAuthenticated
     serializer_class = CurrencyAuthUserSerializer
 
-    @api_view(['GET'])
-    def currency_bank_today(self, banks):
+    def get(self, request, banks):
         current_date = date.today().day
         if banks in (CurrencyAuthUser.ALPHABANK, CurrencyAuthUser.BELAGROPROMBANK, CurrencyAuthUser.BELARUSBANK):
             result = CurrencyAuthUser.objects.filter(company=banks).filter(date__day=current_date).order_by('-id')
@@ -69,10 +65,9 @@ class FilterDateIntervalView(generics.ListAPIView):
 class UnAuthViewSet(GenericAPIView):
     queryset = CurrencyUnAuthUser.objects.all()
     serializer_class = CurrencyUnAuthUserSerializer
+    permission_classes = [AllowAny]
 
-    @api_view(['GET'])
-    @permission_classes([AllowAny])
-    def currency_bank_now(self, bank):
+    def get(self, request, bank):
         if bank in (CurrencyUnAuthUser.ALPHABANK, CurrencyUnAuthUser.BELAGROPROMBANK, CurrencyUnAuthUser.BELARUSBANK):
             if bank == "alfabank":
                 alfabankun()
