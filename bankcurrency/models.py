@@ -26,7 +26,7 @@ class CurrencyAuthUser(models.Model):
         verbose_name = 'currency'
         db_table = 'currency_auth_user'
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.company
 
 
@@ -51,5 +51,5 @@ class CurrencyUnAuthUser(models.Model):
         verbose_name = 'currency'
         db_table = 'currency_un_auth_user'
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.company
