@@ -1,4 +1,5 @@
 from datetime import date
+from django.db.models import QuerySet
 from rest_framework import permissions, generics
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import AllowAny
@@ -41,7 +42,7 @@ class FilterDateView(generics.ListAPIView):
     permissions_classes = permissions.IsAuthenticated
     serializer_class = CurrencyAuthUserSerializer
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet[CurrencyAuthUser]:
         qs = CurrencyAuthUser.objects.all()
         company = self.request.query_params.get('company')
         date = self.request.query_params.get('date')
@@ -54,7 +55,7 @@ class FilterDateIntervalView(generics.ListAPIView):
     permissions_classes = permissions.IsAuthenticated
     serializer_class = CurrencyAuthUserSerializer
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet[CurrencyAuthUser]:
         qs = CurrencyAuthUser.objects.all()
         company = self.request.query_params.get('company')
         date_start = self.request.query_params.get('date_start')
