@@ -12,4 +12,3 @@ class CurrencyUnAuthUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CurrencyUnAuthUser
         fields = '__all__'
-

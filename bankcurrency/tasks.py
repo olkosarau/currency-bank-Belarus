@@ -15,7 +15,7 @@ def create_alphabank_currency():
     cur_usd_sell = data['rates'][5]['buyRate']
     cur_usd_buy = data['rates'][5]['sellRate']
 
-    CurrencyAuthUser.objects.create(company=CurrencyAuthUser.ALPHABANK, eur_buy=cur_eur_buy, eur_sell=cur_eur_sell,
+    return CurrencyAuthUser.objects.create(company=CurrencyAuthUser.ALPHABANK, eur_buy=cur_eur_buy, eur_sell=cur_eur_sell,
                         usd_buy=cur_usd_buy, usd_sell=cur_usd_sell,
                         rur_buy=cur_rur_buy, rur_sell=cur_rur_sell)
 
